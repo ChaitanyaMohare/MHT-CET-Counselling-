@@ -1,0 +1,96 @@
+<%- include('partials/head') %>
+<% const activePage = 'contact'; %>
+<%- include('partials/navbar') %>
+
+<div class="page-header">
+  <h1>Contact Us</h1>
+  <p>Have questions? Our team is here to help you navigate your counselling journey.</p>
+</div>
+
+<div class="contact-page">
+  <div class="contact-grid">
+    <!-- Info Card -->
+    <div class="contact-info-card">
+      <h2>Get in Touch</h2>
+      <p>Reach out to us via any of the channels below. We typically respond within 2–4 hours.</p>
+
+      <div class="contact-detail">
+        <div class="contact-icon">📞</div>
+        <div class="contact-detail-text">
+          <div style="font-size:0.75rem;opacity:0.65;margin-bottom:2px;">CALL US</div>
+          +91 99999 99999
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">📧</div>
+        <div class="contact-detail-text">
+          <div style="font-size:0.75rem;opacity:0.65;margin-bottom:2px;">EMAIL US</div>
+          support@mhtcetcounselling.in
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">🕐</div>
+        <div class="contact-detail-text">
+          <div style="font-size:0.75rem;opacity:0.65;margin-bottom:2px;">WORKING HOURS</div>
+          Mon–Sat: 9 AM – 7 PM
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">📍</div>
+        <div class="contact-detail-text">
+          <div style="font-size:0.75rem;opacity:0.65;margin-bottom:2px;">LOCATION</div>
+          Pune, Maharashtra, India
+        </div>
+      </div>
+
+      <a href="https://wa.me/919999999999?text=Hi%2C%20I%20need%20help%20with%20MHT-CET%20counselling" target="_blank" class="whatsapp-btn">
+        💬 Chat on WhatsApp
+      </a>
+    </div>
+
+    <!-- Contact Form -->
+    <div>
+      <% if (success) { %>
+        <div class="alert alert-success">
+          ✅ Thank you! Your message has been received. We'll get back to you within 24 hours.
+        </div>
+      <% } %>
+
+      <% if (errors && errors.length > 0) { %>
+        <div class="alert alert-error">
+          <span>⚠️</span>
+          <ul><% errors.forEach(e => { %><li><%= e %></li><% }); %></ul>
+        </div>
+      <% } %>
+
+      <div class="form-card" style="margin-bottom:0;">
+        <div class="form-section-title">
+          <div class="section-icon">✉️</div> Send Us a Message
+        </div>
+        <form action="/contact" method="POST" novalidate>
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Your Name <span class="req">*</span></label>
+              <input type="text" name="name" value="<%= formData.name || '' %>" placeholder="Rahul Patil" required />
+            </div>
+            <div class="form-group">
+              <label>Email Address <span class="req">*</span></label>
+              <input type="email" name="email" value="<%= formData.email || '' %>" placeholder="rahul@example.com" required />
+            </div>
+            <div class="form-group">
+              <label>Mobile Number <span class="req">*</span></label>
+              <input type="tel" name="mobile" value="<%= formData.mobile || '' %>" placeholder="9876543210" maxlength="10" required />
+            </div>
+            <div class="form-group full">
+              <label>Message <span class="req">*</span></label>
+              <textarea name="message" placeholder="Tell us how we can help you..."><%= formData.message || '' %></textarea>
+            </div>
+          </div>
+          <button type="submit" class="form-submit-btn">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

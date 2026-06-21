@@ -1,0 +1,64 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+<%- include('partials/progress', { currentStep: 5 }) %>
+
+<div class="thankyou-page">
+  <div class="thankyou-icon">✅</div>
+  <h1>Counselling Request Received!</h1>
+  <p>
+    Thank you, <strong><%= student ? student.firstName : 'Student' %></strong>! Your counselling form has been successfully submitted.
+    Our expert will contact you within <strong>24 hours</strong> on your registered mobile number.
+  </p>
+  <div style="background:linear-gradient(135deg,rgba(79,110,247,0.08),rgba(124,58,237,0.08));border:1.5px solid rgba(79,110,247,0.2);border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:12px;margin-bottom:2rem;font-size:0.9rem;color:var(--navy2);">
+    📞 Expert will call on: <strong><%= student ? student.mobile : '' %></strong>
+  </div>
+
+  <% if (student) { %>
+  <div class="summary-card">
+    <h3 style="font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:2px solid var(--light);">📋 Submission Summary</h3>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <label>Student Name</label>
+        <p><%= student.firstName %> <%= student.middleName %> <%= student.lastName %></p>
+      </div>
+      <div class="summary-item">
+        <label>Mobile</label>
+        <p><%= student.mobile %></p>
+      </div>
+      <div class="summary-item">
+        <label>Email</label>
+        <p><%= student.email %></p>
+      </div>
+      <div class="summary-item">
+        <label>CET Percentile</label>
+        <p><%= student.cetPercentile %>%ile</p>
+      </div>
+      <div class="summary-item">
+        <label>Category</label>
+        <p><%= student.category %> <% if (student.subCategory && student.subCategory !== 'None') { %>/ <%= student.subCategory %><% } %></p>
+      </div>
+      <div class="summary-item">
+        <label>Selected Plan</label>
+        <p><%= student.selectedPlan %> Plan — ₹<%= student.planAmount ? student.planAmount.toLocaleString('en-IN') : '' %></p>
+      </div>
+      <div class="summary-item">
+        <label>Payment Status</label>
+        <p style="color:#22c55e;font-weight:700;">✅ Paid</p>
+      </div>
+      <% if (form) { %>
+      <div class="summary-item">
+        <label>Primary Branch</label>
+        <p><%= form.branchPrimary %></p>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+
+  <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <a href="/" class="btn btn-outline" style="background:var(--navy);color:#fff;border-color:var(--navy);">← Back to Home</a>
+    <a href="https://wa.me/919999999999?text=Hi%2C%20I%20just%20submitted%20my%20MHT-CET%20counselling%20form%20and%20need%20help" target="_blank" class="btn" style="background:#25D366;color:#fff;">💬 WhatsApp Us</a>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

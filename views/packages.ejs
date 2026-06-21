@@ -1,0 +1,42 @@
+<%- include('partials/head') %>
+<% const activePage = 'packages'; %>
+<%- include('partials/navbar') %>
+<%- include('partials/progress', { currentStep: 1 }) %>
+
+<div class="page-header">
+  <h1>Choose Your Counselling Plan</h1>
+  <p>Pick the plan that fits your needs. All plans include expert guidance and real-time data.</p>
+</div>
+
+<section class="packages-section">
+  <div class="packages-grid">
+    <% plans.forEach(function(plan) { %>
+      <div class="plan-card <%= plan.featured ? 'featured' : '' %>">
+        <% if (plan.badge) { %>
+          <div class="featured-badge"><%= plan.badge %></div>
+        <% } %>
+        <div class="plan-name"><%= plan.name %> Plan</div>
+        <div class="plan-price">
+          <span class="currency">₹</span>
+          <span class="amount"><%= plan.price.toLocaleString('en-IN') %></span>
+          <span class="period">&nbsp;/ one-time</span>
+        </div>
+        <ul class="plan-features">
+          <% plan.features.forEach(function(f) { %>
+            <li><%= f %></li>
+          <% }); %>
+        </ul>
+        <form action="/select-plan" method="POST">
+          <input type="hidden" name="plan" value="<%= plan.id %>" />
+          <button type="submit" class="plan-select-btn">Select <%= plan.name %> Plan →</button>
+        </form>
+      </div>
+    <% }); %>
+  </div>
+
+  <div style="text-align:center;margin-top:3rem;color:#64748b;font-size:0.85rem;">
+    <p>🔒 Secure payment powered by Cashfree. &nbsp;|&nbsp; 💬 Questions? <a href="/contact" style="color:var(--blue);">Contact us</a></p>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

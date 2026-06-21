@@ -1,0 +1,60 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+<%- include('partials/progress', { currentStep: 3 }) %>
+
+<div class="payment-page" style="padding-top:3rem;">
+  <a href="/basic-info" class="back-link">← Edit Basic Info</a>
+
+  <!-- Order Summary -->
+  <div class="order-summary">
+    <h3>ORDER SUMMARY</h3>
+    <div class="order-row">
+      <span class="order-label">Student Name</span>
+      <span class="order-value"><%= student.firstName %> <%= student.lastName %></span>
+    </div>
+    <div class="order-row">
+      <span class="order-label">Mobile</span>
+      <span class="order-value"><%= student.mobile %></span>
+    </div>
+    <div class="order-row">
+      <span class="order-label">CET Percentile</span>
+      <span class="order-value"><%= student.cetPercentile %>%ile</span>
+    </div>
+    <div class="order-row">
+      <span class="order-label">Selected Plan</span>
+      <span class="order-value"><%= student.selectedPlan %> Plan</span>
+    </div>
+    <div class="order-row order-total">
+      <span class="order-label">Total Amount</span>
+      <span class="order-value">₹<%= amount.toLocaleString('en-IN') %></span>
+    </div>
+  </div>
+
+  <!-- Payment Card -->
+  <div class="payment-card">
+    <h3>💳 Complete Your Payment</h3>
+    <div class="cashfree-placeholder">
+      <div class="cashfree-logo">🏦</div>
+      <p style="font-weight:600;color:var(--navy);margin-bottom:4px;">Cashfree Payment Gateway</p>
+      <p>Secure payments via UPI, Net Banking, Debit/Credit Card</p>
+      <p style="margin-top:8px;font-size:0.78rem;color:#94a3b8;">Integration placeholder — connect your Cashfree credentials in .env</p>
+    </div>
+
+    <!-- Simulated payment for development -->
+    <form action="/payment-success" method="POST">
+      <button type="submit" class="btn-pay">
+        🔐 Pay ₹<%= amount.toLocaleString('en-IN') %> Securely
+      </button>
+    </form>
+
+    <div class="secure-note">
+      🔒 256-bit SSL Encrypted &nbsp;|&nbsp; Powered by Cashfree &nbsp;|&nbsp; PCI-DSS Compliant
+    </div>
+
+    <div style="margin-top:1.5rem;padding:1rem;background:#f8fafc;border-radius:8px;font-size:0.82rem;color:#64748b;text-align:center;">
+      By completing payment, you agree to our <a href="/terms" style="color:var(--blue);">Terms & Conditions</a> and refund policy.
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

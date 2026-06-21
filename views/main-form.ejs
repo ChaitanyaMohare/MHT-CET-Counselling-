@@ -1,0 +1,359 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+<%- include('partials/progress', { currentStep: 4 }) %>
+
+<div class="form-page">
+  <div class="plan-info-banner">
+    ✅ Payment Successful! Welcome, <strong><%= student.firstName %> <%= student.lastName %></strong> — Please fill in your counselling preferences below.
+  </div>
+
+  <% if (errors && errors.length > 0) { %>
+    <div class="alert alert-error">
+      <span>⚠️</span>
+      <ul><% errors.forEach(e => { %><li><%= e %></li><% }); %></ul>
+    </div>
+  <% } %>
+
+  <form action="/main-form" method="POST" id="mainCounsellingForm" novalidate>
+
+    <!-- SECTION A: Branch Preferences -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">🔬</div> Section A — Branch Preferences
+      </div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Primary Branch Preference <span class="req">*</span></label>
+          <select name="branchPrimary" required>
+            <option value="">Select Primary Branch</option>
+            <% ['Computer Science & IT (CS/IT)', 'Electronics & CS (EXTC)', 'Electronics Engineering', 'Electrical Engineering', 'Mechanical Engineering', 'Civil Engineering', 'Chemical Engineering', 'AI & Data Science (AIDS)', 'Production Engineering', 'Information Technology'].forEach(b => { %>
+              <option value="<%= b %>" <%= (typeof formData !== 'undefined' && formData.branchPrimary === b) ? 'selected' : '' %>><%= b %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Secondary Branch Preferences (select up to 5)</label>
+          <div class="checkbox-group">
+            <% ['Computer Science & IT (CS/IT)', 'Electronics & CS (EXTC)', 'Electronics Engineering', 'Electrical Engineering', 'Mechanical Engineering', 'Civil Engineering', 'Chemical Engineering', 'AI & Data Science (AIDS)', 'Production Engineering', 'Information Technology'].forEach(b => { %>
+              <label class="checkbox-label">
+                <input type="checkbox" name="branchSecondary" value="<%= b %>"
+                  <%= (typeof formData !== 'undefined' && formData.branchSecondary && formData.branchSecondary.includes(b)) ? 'checked' : '' %> />
+                <%= b %>
+              </label>
+            <% }); %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Open to Lateral Entry?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="lateralEntry" value="Yes" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="lateralEntry" value="No" checked /> No</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION B: College Type -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">🏛️</div> Section B — College Type Preferences
+      </div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>College Type (select all that apply)</label>
+          <div class="checkbox-group">
+            <% ['Government', 'Private Aided', 'Private Unaided', 'Autonomous', 'Any'].forEach(t => { %>
+              <label class="checkbox-label">
+                <input type="checkbox" name="collegeType" value="<%= t %>"
+                  <%= (typeof formData !== 'undefined' && formData.collegeType && formData.collegeType.includes(t)) ? 'checked' : '' %> />
+                <%= t %>
+              </label>
+            <% }); %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Minority Institute Acceptable?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="minorityOk" value="Yes" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="minorityOk" value="No" checked /> No</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Deemed University Acceptable?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="deemedOk" value="Yes" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="deemedOk" value="No" checked /> No</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION C: Location -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">📍</div> Section C — Location Preferences
+      </div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Preferred Cities (select all that apply)</label>
+          <div class="checkbox-group">
+            <% ['Pune', 'Mumbai', 'Nagpur', 'Chhatrapati Sambhajinagar', 'Nashik', 'Kolhapur', 'Solapur', 'Amravati', 'Jalgaon', 'Akola'].forEach(c => { %>
+              <label class="checkbox-label">
+                <input type="checkbox" name="preferredCities" value="<%= c %>"
+                  <%= (typeof formData !== 'undefined' && formData.preferredCities && formData.preferredCities.includes(c)) ? 'checked' : '' %> />
+                <%= c %>
+              </label>
+            <% }); %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Maximum Distance from Home</label>
+          <select name="maxDistance">
+            <option value="50km">Within 50 km</option>
+            <option value="100km">Within 100 km</option>
+            <option value="200km">Within 200 km</option>
+            <option value="Any" selected>Any Distance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Home District <span class="req">*</span></label>
+          <input type="text" name="homeDistrict" value="<%= typeof formData !== 'undefined' ? (formData.homeDistrict || '') : '' %>" placeholder="e.g. Pune" required />
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION D: College Quality -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">⭐</div> Section D — College Quality Preferences
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Ranking Preference</label>
+          <select name="rankingPreference">
+            <option value="Top 10">Top 10 Colleges</option>
+            <option value="Top 25">Top 25 Colleges</option>
+            <option value="Top 50">Top 50 Colleges</option>
+            <option value="Any Accredited" selected>Any Accredited College</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Minimum NAAC Grade</label>
+          <select name="naacGrade">
+            <option value="A++">A++ (Highest)</option>
+            <option value="A+">A+</option>
+            <option value="A">A</option>
+            <option value="B++">B++</option>
+            <option value="Any" selected>Any Grade</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>NBA Accreditation Required?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="nbaRequired" value="Yes" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="nbaRequired" value="No" checked /> No</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Placement Priority</label>
+          <select name="placementPriority">
+            <option value=">90%">Above 90%</option>
+            <option value=">75%">Above 75%</option>
+            <option value=">60%">Above 60%</option>
+            <option value="Not a priority" selected>Not a Priority</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION E: Financial -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">💰</div> Section E — Financial Preferences
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Annual Fee Budget</label>
+          <select name="feeBudget">
+            <option value="Under ₹1L">Under ₹1 Lakh</option>
+            <option value="₹1L–1.5L">₹1L – ₹1.5L</option>
+            <option value="₹1.5L–2L">₹1.5L – ₹2L</option>
+            <option value="Above ₹2L">Above ₹2L</option>
+            <option value="No Limit" selected>No Limit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Hostel Required?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="hostelRequired" value="Yes" id="hostelYes" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="hostelRequired" value="No" checked id="hostelNo" /> No</label>
+          </div>
+        </div>
+        <div class="form-group" id="hostelTypeGroup" style="display:none;">
+          <label>Hostel Type</label>
+          <select name="hostelType">
+            <option value="Boys">Boys Hostel</option>
+            <option value="Girls">Girls Hostel</option>
+            <option value="Any">Any</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Need Fee Concession / Scholarship?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="scholarshipNeeded" value="Yes" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="scholarshipNeeded" value="No" checked /> No</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION F: Priority Ranking -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">🏆</div> Section F — Priority Ranking
+      </div>
+      <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Drag and drop to rank factors by importance (1 = Most Important)</p>
+      <div class="priority-list" id="priorityList">
+        <div class="priority-item" draggable="true" data-key="collegeReputation">
+          <span class="priority-handle">⠿</span>
+          <div class="priority-num">1</div>
+          <span class="priority-name">🏛️ College Reputation</span>
+          <input type="hidden" name="priority_collegeReputation" value="1" />
+        </div>
+        <div class="priority-item" draggable="true" data-key="branch">
+          <span class="priority-handle">⠿</span>
+          <div class="priority-num">2</div>
+          <span class="priority-name">🔬 Branch / Stream</span>
+          <input type="hidden" name="priority_branch" value="2" />
+        </div>
+        <div class="priority-item" draggable="true" data-key="location">
+          <span class="priority-handle">⠿</span>
+          <div class="priority-num">3</div>
+          <span class="priority-name">📍 Location / City</span>
+          <input type="hidden" name="priority_location" value="3" />
+        </div>
+        <div class="priority-item" draggable="true" data-key="fee">
+          <span class="priority-handle">⠿</span>
+          <div class="priority-num">4</div>
+          <span class="priority-name">💰 Fee Structure</span>
+          <input type="hidden" name="priority_fee" value="4" />
+        </div>
+        <div class="priority-item" draggable="true" data-key="placement">
+          <span class="priority-handle">⠿</span>
+          <div class="priority-num">5</div>
+          <span class="priority-name">💼 Placement Record</span>
+          <input type="hidden" name="priority_placement" value="5" />
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION G: Special Preferences -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">✨</div> Section G — Special Preferences
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Sports Quota Interest?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="sportsQuota" value="Yes" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="sportsQuota" value="No" checked /> No</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Management / NRI Quota Interest?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="managementQuota" value="Yes" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="managementQuota" value="No" checked /> No</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Specific College You Definitely Want</label>
+          <input type="text" name="targetCollege" value="<%= typeof formData !== 'undefined' ? (formData.targetCollege || '') : '' %>" placeholder="e.g. COEP Pune, VJTI Mumbai" />
+        </div>
+        <div class="form-group">
+          <label>College You Want to Exclude</label>
+          <input type="text" name="excludeCollege" value="<%= typeof formData !== 'undefined' ? (formData.excludeCollege || '') : '' %>" placeholder="e.g. Any college in specific city" />
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION H: Career Goals -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">🎯</div> Section H — Career Goals
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Post-Graduation Plan</label>
+          <select name="careerPlan">
+            <option value="Job">Campus Placement / Job</option>
+            <option value="GATE-Masters">GATE / M.Tech / Masters</option>
+            <option value="MBA">MBA</option>
+            <option value="Startup">Startup / Entrepreneurship</option>
+            <option value="Not Sure" selected>Not Sure Yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Dream Companies or Sectors</label>
+          <input type="text" name="dreamCompanies" value="<%= typeof formData !== 'undefined' ? (formData.dreamCompanies || '') : '' %>" placeholder="e.g. TCS, Infosys, Core Engineering" />
+        </div>
+        <div class="form-group full">
+          <label>Additional Notes or Preferences</label>
+          <textarea name="notes" placeholder="Any other preferences, special requirements, or information you'd like us to know..."><%= typeof formData !== 'undefined' ? (formData.notes || '') : '' %></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="form-submit-btn">Submit Counselling Form ✓</button>
+  </form>
+</div>
+
+<script>
+  // Hostel type toggle
+  document.querySelectorAll('input[name="hostelRequired"]').forEach(r => {
+    r.addEventListener('change', function() {
+      document.getElementById('hostelTypeGroup').style.display = this.value === 'Yes' ? 'flex' : 'none';
+    });
+  });
+
+  // Drag & Drop Priority
+  const list = document.getElementById('priorityList');
+  let dragging = null;
+
+  list.querySelectorAll('.priority-item').forEach(item => {
+    item.addEventListener('dragstart', () => { dragging = item; item.classList.add('dragging'); });
+    item.addEventListener('dragend', () => { dragging = null; item.classList.remove('dragging'); updatePriorities(); });
+    item.addEventListener('dragover', e => { e.preventDefault(); item.classList.add('drag-over'); });
+    item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+    item.addEventListener('drop', e => {
+      e.preventDefault();
+      item.classList.remove('drag-over');
+      if (dragging && dragging !== item) {
+        const items = [...list.querySelectorAll('.priority-item')];
+        const fromIdx = items.indexOf(dragging);
+        const toIdx = items.indexOf(item);
+        if (fromIdx < toIdx) list.insertBefore(dragging, item.nextSibling);
+        else list.insertBefore(dragging, item);
+      }
+    });
+  });
+
+  function updatePriorities() {
+    list.querySelectorAll('.priority-item').forEach((item, i) => {
+      item.querySelector('.priority-num').textContent = i + 1;
+      const key = item.dataset.key;
+      item.querySelector('input[type=hidden]').value = i + 1;
+    });
+  }
+
+  // Secondary branch limit (5 max)
+  document.querySelectorAll('input[name="branchSecondary"]').forEach(cb => {
+    cb.addEventListener('change', function() {
+      const checked = document.querySelectorAll('input[name="branchSecondary"]:checked');
+      if (checked.length > 5) { this.checked = false; alert('You can select up to 5 secondary branches.'); }
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>

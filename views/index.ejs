@@ -1,0 +1,391 @@
+<%- include('partials/head') %>
+<% const activePage = 'home'; %>
+<%- include('partials/navbar') %>
+
+<!-- ═══════════════════════════════════════════
+     HERO SECTION
+════════════════════════════════════════════ -->
+<section class="hero2">
+  <div class="hero2-container">
+
+    <!-- Left -->
+    <div class="hero2-left">
+      <div class="hero2-badge">
+        <span class="hero2-badge-dot"></span>
+        #1 Platform for MHT-CET Aspirants
+      </div>
+      <h1 class="hero2-h1">
+        Right College.<br>
+        Right Branch.<br>
+        <span class="hero2-blue">Bright Future.</span>
+      </h1>
+      <p class="hero2-sub">
+        Get accurate college suggestions, cutoff insights,
+        and expert guidance for MHT-CET admissions.
+      </p>
+      <div class="hero2-cta">
+        <a href="/packages" class="btn2 btn2-primary">Get College Suggestions →</a>
+        <a href="/packages" class="btn2 btn2-ghost">Explore Colleges</a>
+      </div>
+      <div class="hero2-trust">
+        <div class="trust2-item"><span class="trust2-icon">✅</span> Trusted by<br><strong>10,000+ Students</strong></div>
+        <div class="trust2-item"><span class="trust2-icon">📊</span> Up-to-date<br><strong>Cutoff Data</strong></div>
+        <div class="trust2-item"><span class="trust2-icon">🎯</span> Personalized<br><strong>Guidance</strong></div>
+        <div class="trust2-item"><span class="trust2-icon">🔒</span> 100% Secure<br><strong>&amp; Confidential</strong></div>
+      </div>
+    </div>
+
+    <!-- Center: student photo -->
+    <div class="hero2-center">
+      <img
+        src="https://images.unsplash.com/photo-1529390079861-591de354faf5?q=85&w=700&auto=format&fit=crop&crop=top"
+        alt="MHT-CET Student"
+        class="hero2-student-img"
+      />
+    </div>
+
+    <!-- Right: Start Journey card -->
+    <div class="hero2-right">
+      <div class="journey-card">
+        <h3 class="journey-title">Start Your Journey</h3>
+        <p class="journey-sub">Enter your details to get personalised college suggestions</p>
+        <form action="/packages" method="GET" class="journey-form">
+          <div class="jf-group">
+            <input type="number" placeholder="Enter MHT-CET Percentile" min="0" max="100" step="0.01" class="jf-input" />
+            <span class="jf-icon">🎯</span>
+          </div>
+          <div class="jf-group">
+            <select class="jf-input">
+              <option value="">Select Category</option>
+              <option>General (Open)</option>
+              <option>OBC</option>
+              <option>SC</option>
+              <option>ST</option>
+              <option>NT</option>
+              <option>EWS</option>
+              <option>VJ-DT</option>
+            </select>
+          </div>
+          <div class="jf-group">
+            <select class="jf-input">
+              <option value="">Select Preferred Branch</option>
+              <option>Computer Science &amp; IT</option>
+              <option>Mechanical Engineering</option>
+              <option>Civil Engineering</option>
+              <option>Electronics (EXTC)</option>
+              <option>AI &amp; Data Science</option>
+            </select>
+          </div>
+          <div class="jf-group">
+            <select class="jf-input">
+              <option value="">Select Preferred Region</option>
+              <option>Pune</option>
+              <option>Mumbai</option>
+              <option>Nagpur</option>
+              <option>Nashik</option>
+              <option>Aurangabad</option>
+            </select>
+          </div>
+          <button type="submit" class="jf-btn">Get My Suggestions →</button>
+        </form>
+        <p class="journey-note">🔒 Your data is safe with us. We never share your information.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FEATURES GRID
+════════════════════════════════════════════ -->
+<section class="features-section">
+  <div class="section-container">
+    <div class="section-heading">
+      <h2>Everything You Need for Smart Admission</h2>
+      <div class="heading-bar"></div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon fi-blue">
+          <img src="https://cdn-icons-png.flaticon.com/512/1011/1011528.png" alt="College Predictor" class="feature-icon-img" />
+        </div>
+        <h4>College Predictor</h4>
+        <p>AI-powered predictions based on past cutoffs, your percentile, category &amp; preferences.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">👨‍💼</div>
+        <h4>Expert Counselors</h4>
+        <p>Connect with experienced counselors who guide you at every step of the admission process.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-orange">📈</div>
+        <h4>Cutoff Insights</h4>
+        <p>Access category-wise cutoffs for all branches from top engineering colleges.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-purple">📋</div>
+        <h4>Choice Filling Help</h4>
+        <p>Get expert support for CAP choice filling to maximise your admission chances.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-teal">🔔</div>
+        <h4>Round Updates</h4>
+        <p>Real-time updates on CAP rounds, seat matrix, notifications &amp; important dates.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-navy">🛡️</div>
+        <h4>Secure &amp; Reliable</h4>
+        <p>Your data is 100% safe with us. We ensure privacy and build trust.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     STATS BAR
+════════════════════════════════════════════ -->
+<section class="stats-section">
+  <div class="section-container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-icon">👥</div>
+        <div class="stat-num">10,000+</div>
+        <div class="stat-label">Students Guided</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">🏛️</div>
+        <div class="stat-num">350+</div>
+        <div class="stat-label">Colleges Covered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">🔬</div>
+        <div class="stat-num">1500+</div>
+        <div class="stat-label">Branches Available</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Student Satisfaction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════════════════ -->
+<section class="hiw-section">
+  <div class="section-container">
+    <div class="section-heading">
+      <h2>How It Works</h2>
+      <p class="section-sub">Simple steps to your dream college</p>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-num">1</div>
+        <div class="hiw-icon">📝</div>
+        <h4>Enter Details</h4>
+        <p>Fill in your percentile, category, preferences &amp; other requirements.</p>
+      </div>
+      <div class="hiw-arrow">→</div>
+      <div class="hiw-step">
+        <div class="hiw-num">2</div>
+        <div class="hiw-icon">🔍</div>
+        <h4>Get Suggestions</h4>
+        <p>Our AI algorithm finds the best matching colleges &amp; branches for you.</p>
+      </div>
+      <div class="hiw-arrow">→</div>
+      <div class="hiw-step">
+        <div class="hiw-num">3</div>
+        <div class="hiw-icon">📞</div>
+        <h4>Talk to Expert</h4>
+        <p>Connect with our expert counselors for personalised guidance.</p>
+      </div>
+      <div class="hiw-arrow">→</div>
+      <div class="hiw-step">
+        <div class="hiw-num">4</div>
+        <div class="hiw-icon">🎓</div>
+        <h4>Make the Right Choice</h4>
+        <p>Choose the right college and branch and secure your future.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FAQ ACCORDION
+════════════════════════════════════════════ -->
+<section class="faq-section">
+  <div class="section-container">
+    <div class="section-heading">
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-col">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What is MHT-CET Counselling? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">MHT-CET Counselling is the official admission process for engineering colleges in Maharashtra. Our platform helps you navigate it with expert support, cutoff data, and personalised college lists.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            How accurate are the college predictions? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Our predictions are based on 5+ years of historical cutoff data and are updated after every CAP round. Accuracy depends on category, branch, and location preferences.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Will I get personal counselling? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Yes! Every paid plan includes one-on-one expert counselling sessions. The Pro and Premium plans include multiple calls with dedicated counsellors.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            How do I start? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Simply click "Get College Suggestions", choose a plan that fits your needs, fill in your basic details, and complete payment. You'll get access to your personalised report instantly.</div>
+        </div>
+      </div>
+      <div class="faq-col">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Is my data safe with MHT-CET Counselling? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Absolutely. We use industry-standard 256-bit SSL encryption. Your data is never shared with third parties without consent. See our Privacy Policy for details.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Which data is used for predictions? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">We use official DTE Maharashtra CAP round data, MHTCET merit lists, seat matrices, and historical admission records spanning 5+ years.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Do you help with CAP choice filling? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Yes — our Pro and Premium plans include hands-on assistance with CAP choice filling, option form strategy, and document verification guidance.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can I get refund if I'm not satisfied? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">We offer a full refund within 24 hours of payment if no counselling session has been conducted. See our <a href="/terms" style="color:var(--blue2);">Terms & Conditions</a> for full refund policy.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+════════════════════════════════════════════ -->
+<section class="cta-banner">
+  <div class="section-container">
+    <div class="cta-inner">
+      <div class="cta-left">
+        <div class="cta-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/1940/1940569.png" alt="Counselling" class="cta-icon-img" />
+        </div>
+        <div>
+          <h3>Still Confused About Your Options?</h3>
+          <p>Our experts are here to help you choose the best path for your future.</p>
+        </div>
+      </div>
+      <div class="cta-right">
+        <a href="/contact" class="btn2 btn2-primary">Talk to a Counselor 📞</a>
+        <span class="cta-or">or Call: +91 12345 67890</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="footer2">
+  <div class="section-container">
+    <div class="footer2-grid">
+      <!-- Brand -->
+      <div class="footer2-brand">
+        <div class="footer2-logo">
+          <div class="navbar-logo-icon">🎓</div>
+          <div>
+            <div class="footer2-logo-text">MHT-CET <span>Counselling</span></div>
+            <div class="footer2-logo-sub">Your Admission Partner</div>
+          </div>
+        </div>
+        <p>Helping MHT-CET aspirants find the right college and branch with data-driven insights and expert guidance.</p>
+        <div class="footer2-social">
+          <a href="#" aria-label="Instagram">📸</a>
+          <a href="#" aria-label="YouTube">▶️</a>
+          <a href="#" aria-label="Telegram">✈️</a>
+          <a href="https://wa.me/919999999999" aria-label="WhatsApp">💬</a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer2-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/packages">Packages</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+          <li><a href="/terms">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+
+      <!-- Important Links -->
+      <div class="footer2-col">
+        <h5>Important Links</h5>
+        <ul>
+          <li><a href="https://cetcell.mahacet.org/" target="_blank">DTE Maharashtra</a></li>
+          <li><a href="https://cetcell.mahacet.org/" target="_blank">CAP Brochure</a></li>
+          <li><a href="https://cetcell.mahacet.org/" target="_blank">Seat Matrix</a></li>
+          <li><a href="/terms">Privacy Policy</a></li>
+          <li><a href="/terms">Terms &amp; Conditions</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div class="footer2-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="/contact">Help Center</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+          <li><a href="/terms">Privacy Policy</a></li>
+          <li><a href="/terms">Refund Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer2-col">
+        <h5>Contact Us</h5>
+        <ul class="footer2-contact">
+          <li>📞 +91 12345 67890</li>
+          <li>📧 support@mhtcetcounselling.in</li>
+          <li>📍 Pune, Maharashtra, India</li>
+          <li>🕐 Mon – Sat: 10:00 AM – 6:00 PM</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer2-bottom">
+      © <%= new Date().getFullYear() %> MHT-CET Counselling. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+
+
+</body>
+</html>

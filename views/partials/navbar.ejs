@@ -1,0 +1,34 @@
+<nav class="navbar2">
+  <div class="navbar2-inner">
+    <!-- Logo -->
+    <a href="/" class="navbar2-brand">
+      <div class="navbar-logo-icon">🎓</div>
+      <div>
+        <div class="navbar2-brand-text">MHT-CET <span>Counselling</span></div>
+        <div class="navbar2-brand-sub">Your Admission Partner</div>
+      </div>
+    </a>
+
+    <!-- Links -->
+    <ul class="navbar2-links" id="navLinks2">
+      <li><a href="/" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">Home</a></li>
+      <li><a href="/packages">Packages</a></li>
+      <li><a href="/contact" class="<%= typeof activePage !== 'undefined' && activePage === 'contact' ? 'active' : '' %>">Contact Us</a></li>
+      <li><a href="/terms" class="<%= typeof activePage !== 'undefined' && activePage === 'terms' ? 'active' : '' %>">Terms &amp; Conditions</a></li>
+    </ul>
+
+    <!-- Right side -->
+    <div class="navbar2-right">
+      <div class="navbar2-phone">
+        <span class="navbar2-phone-label">Helpline</span>
+        <span class="navbar2-phone-num">+91 12345 67890</span>
+      </div>
+      <a href="/packages" class="btn2 btn2-primary navbar2-cta">Get Started →</a>
+    </div>
+
+    <!-- Hamburger -->
+    <div class="hamburger2" id="hamburger2" onclick="document.getElementById('navLinks2').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>

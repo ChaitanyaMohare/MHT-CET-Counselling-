@@ -1,0 +1,21 @@
+<%
+  // currentStep: 1=SelectPlan, 2=BasicInfo, 3=Payment, 4=MainForm, 5=Done
+  const steps = ['Select Plan', 'Basic Info', 'Payment', 'Full Form', 'Done'];
+%>
+<div class="progress-bar-section">
+  <div class="progress-steps">
+    <% steps.forEach(function(s, i) { %>
+      <%
+        let cls = '';
+        if (i + 1 < currentStep) cls = 'done';
+        else if (i + 1 === currentStep) cls = 'active';
+      %>
+      <div class="step <%= cls %>">
+        <div class="step-dot">
+          <% if (i + 1 < currentStep) { %>✓<% } else { %><%= i+1 %><% } %>
+        </div>
+        <div class="step-label"><%= s %></div>
+      </div>
+    <% }); %>
+  </div>
+</div>

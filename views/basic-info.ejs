@@ -1,0 +1,153 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+<%- include('partials/progress', { currentStep: 2 }) %>
+
+<div class="form-page">
+  <a href="/packages" class="back-link">← Back to Plans</a>
+
+  <div class="plan-info-banner">
+    🎯 Selected Plan: <strong><%= plan %> Plan</strong> &nbsp;|&nbsp; Amount: <strong>₹<%= amount ? amount.toLocaleString('en-IN') : '' %></strong>
+  </div>
+
+  <% if (errors && errors.length > 0) { %>
+    <div class="alert alert-error">
+      <span>⚠️</span>
+      <ul>
+        <% errors.forEach(e => { %><li><%= e %></li><% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="/basic-info" method="POST" novalidate id="basicInfoForm">
+    <input type="hidden" name="selectedPlan" value="<%= plan %>" />
+
+    <!-- Personal Details -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">👤</div> Personal Details
+      </div>
+      <div class="form-grid three">
+        <div class="form-group">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" name="firstName" value="<%= formData.firstName || '' %>" placeholder="Rahul" required />
+        </div>
+        <div class="form-group">
+          <label>Middle Name (Father's Name)</label>
+          <input type="text" name="middleName" value="<%= formData.middleName || '' %>" placeholder="Suresh" />
+        </div>
+        <div class="form-group">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" name="lastName" value="<%= formData.lastName || '' %>" placeholder="Patil" required />
+        </div>
+        <div class="form-group">
+          <label>Mobile Number <span class="req">*</span></label>
+          <input type="tel" name="mobile" value="<%= formData.mobile || '' %>" placeholder="9876543210" pattern="[6-9][0-9]{9}" maxlength="10" required />
+        </div>
+        <div class="form-group">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" name="email" value="<%= formData.email || '' %>" placeholder="rahul@example.com" required />
+        </div>
+        <div class="form-group">
+          <label>Date of Birth <span class="req">*</span></label>
+          <input type="date" name="dob" value="<%= formData.dob || '' %>" required />
+        </div>
+        <div class="form-group">
+          <label>Gender <span class="req">*</span></label>
+          <select name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male" <%= formData.gender === 'Male' ? 'selected' : '' %>>Male</option>
+            <option value="Female" <%= formData.gender === 'Female' ? 'selected' : '' %>>Female</option>
+            <option value="Other" <%= formData.gender === 'Other' ? 'selected' : '' %>>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Academic Details -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">📚</div> Academic Details
+      </div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>School / College Name <span class="req">*</span></label>
+          <input type="text" name="school" value="<%= formData.school || '' %>" placeholder="e.g. Maharashtra Jr. College, Pune" required />
+        </div>
+        <div class="form-group">
+          <label>Board <span class="req">*</span></label>
+          <select name="board" required>
+            <option value="">Select Board</option>
+            <option value="SSC" <%= formData.board === 'SSC' ? 'selected' : '' %>>SSC (Maharashtra)</option>
+            <option value="CBSE" <%= formData.board === 'CBSE' ? 'selected' : '' %>>CBSE</option>
+            <option value="ICSE" <%= formData.board === 'ICSE' ? 'selected' : '' %>>ICSE</option>
+            <option value="Other" <%= formData.board === 'Other' ? 'selected' : '' %>>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>12th Percentage (%) <span class="req">*</span></label>
+          <input type="number" name="twelfthPercent" value="<%= formData.twelfthPercent || '' %>" placeholder="85.60" min="0" max="100" step="0.01" required />
+        </div>
+        <div class="form-group">
+          <label>PCM Percentage (%) <span class="req">*</span></label>
+          <input type="number" name="pcmPercent" value="<%= formData.pcmPercent || '' %>" placeholder="82.33" min="0" max="100" step="0.01" required />
+        </div>
+        <div class="form-group">
+          <label>CET Percentile (Overall) <span class="req">*</span></label>
+          <input type="number" name="cetPercentile" value="<%= formData.cetPercentile || '' %>" placeholder="92.50" min="0" max="100" step="0.01" required />
+        </div>
+        <div class="form-group">
+          <label>CET Attempt <span class="req">*</span></label>
+          <select name="attempt" required>
+            <option value="">Select Attempt</option>
+            <option value="1st" <%= formData.attempt === '1st' ? 'selected' : '' %>>1st Attempt</option>
+            <option value="2nd" <%= formData.attempt === '2nd' ? 'selected' : '' %>>2nd Attempt</option>
+            <option value="Both" <%= formData.attempt === 'Both' ? 'selected' : '' %>>Both (Auto-pick better)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category & Domicile -->
+    <div class="form-card">
+      <div class="form-section-title">
+        <div class="section-icon">📋</div> Category & Domicile
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Category <span class="req">*</span></label>
+          <select name="category" required>
+            <option value="">Select Category</option>
+            <option value="General" <%= formData.category === 'General' ? 'selected' : '' %>>General (Open)</option>
+            <option value="OBC" <%= formData.category === 'OBC' ? 'selected' : '' %>>OBC</option>
+            <option value="SC" <%= formData.category === 'SC' ? 'selected' : '' %>>SC</option>
+            <option value="ST" <%= formData.category === 'ST' ? 'selected' : '' %>>ST</option>
+            <option value="NT" <%= formData.category === 'NT' ? 'selected' : '' %>>NT (Nomadic Tribe)</option>
+            <option value="EWS" <%= formData.category === 'EWS' ? 'selected' : '' %>>EWS</option>
+            <option value="VJ-DT" <%= formData.category === 'VJ-DT' ? 'selected' : '' %>>VJ-DT</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Sub-Category</label>
+          <select name="subCategory">
+            <option value="None" <%= (formData.subCategory === 'None' || !formData.subCategory) ? 'selected' : '' %>>None</option>
+            <option value="PWD" <%= formData.subCategory === 'PWD' ? 'selected' : '' %>>PWD (Person with Disability)</option>
+            <option value="Ex-Serviceman" <%= formData.subCategory === 'Ex-Serviceman' ? 'selected' : '' %>>Ex-Serviceman</option>
+            <option value="Orphan" <%= formData.subCategory === 'Orphan' ? 'selected' : '' %>>Orphan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Domicile <span class="req">*</span></label>
+          <select name="domicile" required>
+            <option value="">Select Domicile</option>
+            <option value="Maharashtra" <%= formData.domicile === 'Maharashtra' ? 'selected' : '' %>>Maharashtra</option>
+            <option value="Outside Maharashtra" <%= formData.domicile === 'Outside Maharashtra' ? 'selected' : '' %>>Outside Maharashtra</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="form-submit-btn">Proceed to Payment →</button>
+  </form>
+</div>
+
+<%- include('partials/footer') %>
