@@ -101,7 +101,14 @@ body {
 
 /* ===== HERO2 ===== */
 .hero2 {
-  background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 60%, #f5f0ff 100%);
+  background:
+    linear-gradient(135deg,
+      rgba(240,244,255,0.88) 0%,
+      rgba(232,240,254,0.82) 60%,
+      rgba(245,240,255,0.88) 100%
+    ),
+    url('https://images.unsplash.com/photo-1695204651916-a300caba0d7e?q=85&w=1800&auto=format&fit=crop&crop=center')
+    center center / cover no-repeat;
   padding: 3.5rem 2rem 2rem;
   overflow: hidden;
 }
@@ -193,39 +200,104 @@ body {
 .jf-btn:hover { background: #1648c0; transform: translateY(-1px); }
 .journey-note { font-size: 0.72rem; color: var(--muted); margin-top: 0.75rem; text-align: center; }
 
-/* ===== FEATURES SECTION ===== */
+/* ===== FEATURES SECTION — Fan Glass Cards ===== */
 .features-section { padding: 5rem 2rem; background: #fff; }
-.features-grid {
+
+/* Each row: fan cards on one side, desc list on the other */
+.fan-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 960px;
-  margin: 0 auto;
+  grid-template-columns: 380px 1fr;
+  gap: 5rem;
+  align-items: center;
+  max-width: 1060px;
+  margin: 0 auto 6rem;
 }
-.feature-card {
-  background: #fff; border: 1.5px solid var(--border);
-  border-radius: var(--radius); padding: 2rem 1.75rem;
-  text-align: center; transition: all 0.25s;
+.fan-row:last-of-type { margin-bottom: 0; }
+.fan-row-reverse { grid-template-columns: 1fr 380px; }
+
+/* ── Fan container (the stacked rotating cards) ── */
+.fan-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 260px;
 }
-.feature-card:hover { border-color: var(--blue2); box-shadow: 0 8px 28px rgba(26,86,219,0.1); transform: translateY(-5px); }
-.feature-icon {
-  width: 56px; height: 56px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem; margin: 0 auto 1.25rem;
+.fan-glass {
+  position: relative;
+  width: 160px;
+  height: 190px;
+  background: linear-gradient(135deg, rgba(26,86,219,0.18), rgba(124,58,237,0.12));
+  border: 1px solid rgba(26,86,219,0.2);
+  box-shadow: 0 20px 40px rgba(26,86,219,0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.5s cubic-bezier(.34,1.56,.64,1), margin 0.5s ease;
+  border-radius: 14px;
+  margin: 0 -42px;
+  backdrop-filter: blur(10px);
+  transform: rotate(calc(var(--r) * 1deg));
+  cursor: pointer;
 }
-.feature-icon-img {
-  width: 32px; height: 32px;
+.fan-container:hover .fan-glass {
+  transform: rotate(0deg);
+  margin: 0 10px;
+  box-shadow: 0 24px 48px rgba(26,86,219,0.2);
+}
+.fan-glass::before {
+  content: attr(data-text);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 38px;
+  background: rgba(26,86,219,0.12);
+  border-radius: 0 0 14px 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--navy);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.fan-icon-img {
+  width: 52px;
+  height: 52px;
   object-fit: contain;
-  display: block;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 8px rgba(26,86,219,0.2));
 }
-.fi-blue   { background: #e8f0fe; }
-.fi-green  { background: #e8f8f0; }
-.fi-orange { background: #fff3e0; }
-.fi-purple { background: #f3e8ff; }
-.fi-teal   { background: #e0f7fa; }
-.fi-navy   { background: #e8eaf6; }
-.feature-card h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 0.6rem; }
-.feature-card p  { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+/* ── Description list beside the fan ── */
+.fan-desc-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+.fan-desc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.fan-desc-icon {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.fan-desc-icon img {
+  width: 26px; height: 26px;
+  object-fit: contain;
+}
+.fan-desc-item h4 {
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--navy); margin-bottom: 0.3rem;
+}
+.fan-desc-item p {
+  font-size: 0.84rem; color: var(--muted); line-height: 1.65;
+}
+
 
 /* ===== STATS SECTION ===== */
 .stats-section { padding: 3rem 2rem; background: var(--light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -518,6 +590,8 @@ body {
   .navbar2-inner { flex-wrap: wrap; }
 }
 @media (max-width: 640px) {
+  .fan-row, .fan-row-reverse { grid-template-columns: 1fr; gap: 2.5rem; }
+  .fan-container { height: 220px; }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .form-grid { grid-template-columns: 1fr; }
