@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
+</head>
+<body class="admin-body">
+
+<%- include('../admin/partials/sidebar') %>
+
+<div class="admin-main">
+  <%- include('../admin/partials/topbar', { pageTitle: 'Dashboard' }) %>
+
+  <div class="admin-content">
+
+    <!-- Stats Row -->
+    <div class="admin-stats-row">
+      <div class="admin-stat-card">
+        <div class="asc-icon" style="background:#e8f0fe;">👥</div>
+        <div>
+          <div class="asc-num"><%= stats.totalStudents %></div>
+          <div class="asc-label">Total Registered</div>
+        </div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="asc-icon" style="background:#e8f8f0;">✅</div>
+        <div>
+          <div class="asc-num" style="color:#16a34a;"><%= stats.paidStudents %></div>
+          <div class="asc-label">Paid Students</div>
+        </div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="asc-icon" style="background:#fff3e0;">⏳</div>
+        <div>
+          <div class="asc-num" style="color:#d97706;"><%= stats.pendingStudents %></div>
+          <div class="asc-label">Pending Payment</div>
+        </div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="asc-icon" style="background:#f3e8ff;">📋</div>
+        <div>
+          <div class="asc-num" style="color:#7c3aed;"><%= stats.formsCount %></div>
+          <div class="asc-label">Forms Filled</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="admin-card" style="margin-bottom:1.5rem;">
+      <form method="GET" action="/admin" class="admin-filter-row">
+        <input type="text" name="search" value="<%= search %>" placeholder="Search by name, mobile, email…" class="admin-search-input" />
+        <div class="admin-filter-tabs">
+          <a href="/admin?status=all&search=<%= search %>" class="atab <%= filter==='all'?'active':'' %>">All</a>
+          <a href="/admin?status=paid&search=<%= search %>" class="atab <%= filter==='paid'?'active':'' %>">Paid</a>
+          <a href="/admin?status=pending&search=<%= search %>" class="atab <%= filter==='pending'?'active':'' %>">Pending</a>
+        </div>
+        <button type="submit" class="btn2 btn2-primary" style="padding:9px 20px;font-size:0.83rem;">Search</button>
+      </form>
+    </div>
+
+    <!-- Students Table -->
+    <div class="admin-card">
+      <h3 class="admin-card-title">Registered Students</h3>
+      <% if (students.length === 0) { %>
+        <div style="text-align:center;padding:3rem;color:var(--muted);">No students found.</div>
+      <% } else { %>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Student Name</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Percentile</th>
+              <th>Category</th>
+              <th>Plan</th>
+              <th>Payment</th>
+              <th>Form</th>
+              <th>Registered</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% students.forEach(function(s, i) { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td>
+                <div class="student-name-cell">
+                  <div class="student-avatar"><%= s.firstName.charAt(0).toUpperCase() %></div>
+                  <div>
+                    <div style="font-weight:600;color:var(--navy);"><%= s.firstName %> <%= s.lastName %></div>
+                    <div style="font-size:0.72rem;color:var(--muted);"><%= s.gender %>, <%= s.domicile %></div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="contact-cell">
+                  <span><%= s.mobile %></span>
+                  <div class="contact-btns">
+                    <a href="tel:<%= s.mobile %>" class="cbtn cbtn-call" title="Call">📞</a>
+                    <a href="https://wa.me/91<%= s.mobile %>?text=Hi%20<%= encodeURIComponent(s.firstName) %>%2C%20this%20is%20MHT-CET%20Counselling%20team.%20We%20received%20your%20registration%20and%20would%20like%20to%20discuss%20your%20college%20options." target="_blank" class="cbtn cbtn-wa" title="WhatsApp">💬</a>
+                  </div>
+                </div>
+              </td>
+              <td style="font-size:0.8rem;"><%= s.email %></td>
+              <td><span class="badge badge-blue"><%= s.cetPercentile %>%ile</span></td>
+              <td><%= s.category %><% if(s.subCategory && s.subCategory!=='None'){%>/<%= s.subCategory %><% } %></td>
+              <td><span class="badge badge-purple"><%= s.selectedPlan %></span></td>
+              <td>
+                <% if(s.paymentStatus === 'paid') { %>
+                  <span class="badge badge-green">✅ Paid</span>
+                <% } else { %>
+                  <span class="badge badge-orange">⏳ Pending</span>
+                <% } %>
+              </td>
+              <td>
+                <% if(s.hasForm) { %>
+                  <span class="badge badge-green">✅ Done</span>
+                <% } else { %>
+                  <span class="badge badge-orange">📝 Not filled</span>
+                <% } %>
+              </td>
+              <td style="font-size:0.78rem;color:var(--muted);">
+                <%= new Date(s.createdAt).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}) %>
+              </td>
+              <td>
+                <a href="/admin/student/<%= s._id %>" class="btn2 btn2-primary" style="padding:6px 14px;font-size:0.78rem;white-space:nowrap;">
+                  View & Fill Form
+                </a>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+
+  </div><!-- /admin-content -->
+</div><!-- /admin-main -->
+
+</body>
+</html>

@@ -46,6 +46,7 @@ app.use('/', require('./routes/payment'));
 app.use('/', require('./routes/mainForm'));
 app.use('/', require('./routes/contact'));
 app.use('/', require('./routes/terms'));
+app.use('/', require('./routes/admin'));
 
 // 404
 app.use((req, res) => {

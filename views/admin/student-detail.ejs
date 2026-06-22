@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
+</head>
+<body class="admin-body">
+
+<%- include('../admin/partials/sidebar') %>
+
+<div class="admin-main">
+  <%- include('../admin/partials/topbar', { pageTitle: 'Student Profile' }) %>
+
+  <div class="admin-content">
+
+    <a href="/admin" class="back-link">← Back to Dashboard</a>
+
+    <% if (saved) { %>
+      <div class="alert alert-success">✅ Counselling form saved successfully!</div>
+    <% } %>
+    <% if (errors && errors.length > 0) { %>
+      <div class="alert alert-error"><ul><% errors.forEach(e=>{%><li>⚠️ <%=e%></li><%});%></ul></div>
+    <% } %>
+
+    <!-- Student Info Card -->
+    <div class="admin-card" style="margin-bottom:2rem;">
+      <div class="student-profile-header">
+        <div class="student-profile-avatar"><%= student.firstName.charAt(0) %><%= student.lastName.charAt(0) %></div>
+        <div class="student-profile-info">
+          <h2><%= student.firstName %> <%= student.middleName %> <%= student.lastName %></h2>
+          <div class="student-profile-meta">
+            <span>📅 DOB: <%= new Date(student.dob).toLocaleDateString('en-IN') %></span>
+            <span>👤 <%= student.gender %></span>
+            <span>📍 <%= student.domicile %></span>
+            <span><span class="badge badge-purple"><%= student.selectedPlan %> Plan</span></span>
+            <span>
+              <% if(student.paymentStatus === 'paid') { %>
+                <span class="badge badge-green">✅ Paid</span>
+              <% } else { %>
+                <span class="badge badge-orange">⏳ Pending</span>
+              <% } %>
+            </span>
+          </div>
+        </div>
+        <!-- Contact Buttons -->
+        <div class="student-contact-actions">
+          <a href="tel:<%= student.mobile %>" class="contact-action-btn call-btn">
+            📞 <span><%= student.mobile %></span>
+          </a>
+          <a href="https://wa.me/91<%= student.mobile %>?text=Hi%20<%= encodeURIComponent(student.firstName) %>%2C%20this%20is%20MHT-CET%20Counselling%20team.%20We%20received%20your%20registration%20and%20would%20like%20to%20discuss%20your%20college%20preferences." target="_blank" class="contact-action-btn wa-btn">
+            💬 WhatsApp
+          </a>
+          <a href="mailto:<%= student.email %>" class="contact-action-btn email-btn">
+            ✉️ Email
+          </a>
+        </div>
+      </div>
+
+      <!-- Basic Academic Info Grid -->
+      <div class="student-info-grid">
+        <div class="sinfo-item"><label>Mobile</label><p><%= student.mobile %></p></div>
+        <div class="sinfo-item"><label>Email</label><p><%= student.email %></p></div>
+        <div class="sinfo-item"><label>School / College</label><p><%= student.school %></p></div>
+        <div class="sinfo-item"><label>Board</label><p><%= student.board %></p></div>
+        <div class="sinfo-item"><label>12th Percentage</label><p><%= student.twelfthPercent %>%</p></div>
+        <div class="sinfo-item"><label>PCM Percentage</label><p><%= student.pcmPercent %>%</p></div>
+        <div class="sinfo-item"><label>CET Percentile</label><p><strong style="color:var(--blue2);font-size:1.1rem;"><%= student.cetPercentile %>%ile</strong></p></div>
+        <div class="sinfo-item"><label>Attempt</label><p><%= student.attempt %></p></div>
+        <div class="sinfo-item"><label>Category</label><p><%= student.category %><% if(student.subCategory && student.subCategory!=='None'){%> / <%= student.subCategory %><% } %></p></div>
+        <div class="sinfo-item"><label>Registered On</label><p><%= new Date(student.createdAt).toLocaleString('en-IN') %></p></div>
+      </div>
+    </div>
+
+    <!-- Counselling Form -->
+    <div class="admin-card">
+      <div class="admin-card-title" style="margin-bottom:1.5rem;">
+        📋 Counselling Preferences
+        <% if(form) { %><span class="badge badge-green" style="margin-left:1rem;font-size:0.72rem;">✅ Already filled — <%= new Date(form.submittedAt).toLocaleDateString('en-IN') %></span><% } else { %><span class="badge badge-orange" style="margin-left:1rem;font-size:0.72rem;">📝 Not filled yet</span><% } %>
+      </div>
+
+      <form action="/admin/student/<%= student._id %>/form" method="POST" novalidate>
+
+        <!-- Section A: Branch -->
+        <div class="form-section-title"><div class="section-icon">🔬</div> Section A — Branch Preferences</div>
+        <div class="form-grid" style="margin-bottom:1.5rem;">
+          <div class="form-group full">
+            <label>Primary Branch <span class="req">*</span></label>
+            <select name="branchPrimary" required>
+              <option value="">Select Primary Branch</option>
+              <% ['Computer Science & IT (CS/IT)','Electronics & CS (EXTC)','Electronics Engineering','Electrical Engineering','Mechanical Engineering','Civil Engineering','Chemical Engineering','AI & Data Science (AIDS)','Production Engineering','Information Technology'].forEach(b => { %>
+                <option value="<%= b %>" <%= (formData.branchPrimary === b) ? 'selected' : '' %>><%= b %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Secondary Branches (up to 5)</label>
+            <div class="checkbox-group">
+              <% ['Computer Science & IT (CS/IT)','Electronics & CS (EXTC)','Electronics Engineering','Electrical Engineering','Mechanical Engineering','Civil Engineering','Chemical Engineering','AI & Data Science (AIDS)','Production Engineering','Information Technology'].forEach(b => { %>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="branchSecondary" value="<%= b %>"
+                    <%= (formData.branchSecondary && formData.branchSecondary.includes(b)) ? 'checked' : '' %> />
+                  <%= b %>
+                </label>
+              <% }); %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Open to Lateral Entry?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="lateralEntry" value="Yes" <%= formData.lateralEntry==='Yes'?'checked':'' %>/> Yes</label>
+              <label class="radio-label"><input type="radio" name="lateralEntry" value="No" <%= formData.lateralEntry!=='Yes'?'checked':'' %>/> No</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section B: College Type -->
+        <div class="form-section-title"><div class="section-icon">🏛️</div> Section B — College Type</div>
+        <div class="form-grid" style="margin-bottom:1.5rem;">
+          <div class="form-group full">
+            <label>College Type</label>
+            <div class="checkbox-group">
+              <% ['Government','Private Aided','Private Unaided','Autonomous','Any'].forEach(t => { %>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="collegeType" value="<%= t %>" <%= (formData.collegeType && formData.collegeType.includes(t)) ? 'checked' : '' %>/> <%= t %>
+                </label>
+              <% }); %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Minority Institute OK?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="minorityOk" value="Yes" <%= formData.minorityOk==='Yes'?'checked':'' %>/> Yes</label>
+              <label class="radio-label"><input type="radio" name="minorityOk" value="No" <%= formData.minorityOk!=='Yes'?'checked':'' %>/> No</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Deemed University OK?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="deemedOk" value="Yes" <%= formData.deemedOk==='Yes'?'checked':'' %>/> Yes</label>
+              <label class="radio-label"><input type="radio" name="deemedOk" value="No" <%= formData.deemedOk!=='Yes'?'checked':'' %>/> No</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section C: Location -->
+        <div class="form-section-title"><div class="section-icon">📍</div> Section C — Location</div>
+        <div class="form-grid" style="margin-bottom:1.5rem;">
+          <div class="form-group full">
+            <label>Preferred Cities</label>
+            <div class="checkbox-group">
+              <% ['Pune','Mumbai','Nagpur','Chhatrapati Sambhajinagar','Nashik','Kolhapur','Solapur','Amravati','Jalgaon','Akola'].forEach(c => { %>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="preferredCities" value="<%= c %>" <%= (formData.preferredCities && formData.preferredCities.includes(c)) ? 'checked' : '' %>/> <%= c %>
+                </label>
+              <% }); %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Max Distance from Home</label>
+            <select name="maxDistance">
+              <% ['50km','100km','200km','Any'].forEach(d => { %>
+                <option value="<%= d %>" <%= formData.maxDistance===d?'selected':'' %>><%= d ==='Any'?'Any Distance':d %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Home District</label>
+            <input type="text" name="homeDistrict" value="<%= formData.homeDistrict || '' %>" placeholder="e.g. Pune"/>
+          </div>
+        </div>
+
+        <!-- Section D: Quality -->
+        <div class="form-section-title"><div class="section-icon">⭐</div> Section D — College Quality</div>
+        <div class="form-grid" style="margin-bottom:1.5rem;">
+          <div class="form-group">
+            <label>Ranking Preference</label>
+            <select name="rankingPreference">
+              <% ['Top 10','Top 25','Top 50','Any Accredited'].forEach(r => { %>
+                <option value="<%= r %>" <%= formData.rankingPreference===r?'selected':'' %>><%= r %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Min NAAC Grade</label>
+            <select name="naacGrade">
+              <% ['A++','A+','A','B++','Any'].forEach(g => { %>
+                <option value="<%= g %>" <%= formData.naacGrade===g?'selected':'' %>><%= g %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>NBA Required?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="nbaRequired" value="Yes" <%= formData.nbaRequired==='Yes'?'checked':'' %>/> Yes</label>
+              <label class="radio-label"><input type="radio" name="nbaRequired" value="No" <%= formData.nbaRequired!=='Yes'?'checked':'' %>/> No</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Placement Priority</label>
+            <select name="placementPriority">
+              <% ['>90%','>75%','>60%','Not a priority'].forEach(p => { %>
+                <option value="<%= p %>" <%= formData.placementPriority===p?'selected':'' %>><%= p %></option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section E: Financial -->
+        <div class="form-section-title"><div class="section-icon">💰</div> Section E — Financial</div>
+        <div class="form-grid" style="margin-bottom:1.5rem;">
+          <div class="form-group">
+            <label>Annual Fee Budget</label>
+            <select name="feeBudget">
+              <% ['Under ₹1L','₹1L–1.5L','₹1.5L–2L','Above ₹2L','No Limit'].forEach(f => { %>
+                <option value="<%= f %>" <%= formData.feeBudget===f?'selected':'' %>><%= f %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Hostel Required?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="hostelRequired" value="Yes" id="aHosYes" <%= formData.hostelRequired==='Yes'?'checked':'' %>/> Yes</label>
+              <label class="radio-label"><input type="radio" name="hostelRequired" value="No" id="aHosNo" <%= formData.hostelRequired!=='Yes'?'checked':'' %>/> No</label>
+            </div>
+          </div>
+          <div class="form-group" id="aHostelTypeGroup" style="<%= formData.hostelRequired==='Yes'?'':'display:none;' %>">
+            <label>Hostel Type</label>
+            <select name="hostelType">
+              <% ['Boys','Girls','Any'].forEach(h => { %>
+                <option value="<%= h %>" <%= formData.hostelType===h?'selected':'' %>><%= h %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Scholarship Needed?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="scholarshipNeeded" value="Yes" <%= formData.scholarshipNeeded==='Yes'?'checked':'' %>/> Yes</label>
+              <label class="radio-label"><input type="radio" name="scholarshipNeeded" value="No" <%= formData.scholarshipNeeded!=='Yes'?'checked':'' %>/> No</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section F: Priority Ranking -->
+        <div class="form-section-title"><div class="section-icon">🏆</div> Section F — Priority Ranking</div>
+        <p style="font-size:0.83rem;color:var(--muted);margin-bottom:1rem;">Drag to reorder (1 = Most Important)</p>
+        <div class="priority-list" id="aPriorityList" style="margin-bottom:1.5rem;">
+          <% const prKeys = ['collegeReputation','branch','location','fee','placement'];
+             const prLabels = {'collegeReputation':'🏛️ College Reputation','branch':'🔬 Branch / Stream','location':'📍 Location / City','fee':'💰 Fee Structure','placement':'💼 Placement Record'};
+             // Sort by saved ranking if available
+             const sorted = prKeys.slice().sort((a,b) => {
+               const ra = formData.priorityRanking && formData.priorityRanking[a] ? formData.priorityRanking[a] : 99;
+               const rb = formData.priorityRanking && formData.priorityRanking[b] ? formData.priorityRanking[b] : 99;
+               return ra - rb;
+             });
+          %>
+          <% sorted.forEach(function(key, i) { %>
+            <div class="priority-item" draggable="true" data-key="<%= key %>">
+              <span class="priority-handle">⠿</span>
+              <div class="priority-num"><%= i+1 %></div>
+              <span class="priority-name"><%= prLabels[key] %></span>
+              <input type="hidden" name="priority_<%= key %>" value="<%= i+1 %>" />
+            </div>
+          <% }); %>
+        </div>
+
+        <!-- Section G: Special -->
+        <div class="form-section-title"><div class="section-icon">✨</div> Section G — Special Preferences</div>
+        <div class="form-grid" style="margin-bottom:1.5rem;">
+          <div class="form-group">
+            <label>Sports Quota?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="sportsQuota" value="Yes" <%= formData.sportsQuota==='Yes'?'checked':'' %>/> Yes</label>
+              <label class="radio-label"><input type="radio" name="sportsQuota" value="No" <%= formData.sportsQuota!=='Yes'?'checked':'' %>/> No</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Management / NRI Quota?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="managementQuota" value="Yes" <%= formData.managementQuota==='Yes'?'checked':'' %>/> Yes</label>
+              <label class="radio-label"><input type="radio" name="managementQuota" value="No" <%= formData.managementQuota!=='Yes'?'checked':'' %>/> No</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Target College</label>
+            <input type="text" name="targetCollege" value="<%= formData.targetCollege || '' %>" placeholder="e.g. COEP Pune"/>
+          </div>
+          <div class="form-group">
+            <label>Exclude College</label>
+            <input type="text" name="excludeCollege" value="<%= formData.excludeCollege || '' %>" placeholder="College to avoid"/>
+          </div>
+        </div>
+
+        <!-- Section H: Career -->
+        <div class="form-section-title"><div class="section-icon">🎯</div> Section H — Career Goals</div>
+        <div class="form-grid" style="margin-bottom:2rem;">
+          <div class="form-group">
+            <label>Post-Graduation Plan</label>
+            <select name="careerPlan">
+              <% ['Job','GATE-Masters','MBA','Startup','Not Sure'].forEach(c => { %>
+                <option value="<%= c %>" <%= formData.careerPlan===c?'selected':'' %>><%= c==='Job'?'Campus Placement / Job':c==='GATE-Masters'?'GATE / M.Tech':c %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Dream Companies / Sectors</label>
+            <input type="text" name="dreamCompanies" value="<%= formData.dreamCompanies || '' %>" placeholder="e.g. TCS, Core Engineering"/>
+          </div>
+          <div class="form-group full">
+            <label>Additional Notes</label>
+            <textarea name="notes" placeholder="Any extra preferences or notes discussed on call…"><%= formData.notes || '' %></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="form-submit-btn" style="max-width:320px;">
+          💾 Save Counselling Form
+        </button>
+
+      </form>
+    </div><!-- /admin-card -->
+
+  </div><!-- /admin-content -->
+</div><!-- /admin-main -->
+
+<script>
+  // Hostel toggle
+  document.querySelectorAll('input[name="hostelRequired"]').forEach(r => {
+    r.addEventListener('change', function() {
+      document.getElementById('aHostelTypeGroup').style.display = this.value === 'Yes' ? 'flex' : 'none';
+    });
+  });
+
+  // Drag & drop priority
+  const list = document.getElementById('aPriorityList');
+  let dragging = null;
+  list.querySelectorAll('.priority-item').forEach(item => {
+    item.addEventListener('dragstart', () => { dragging = item; item.classList.add('dragging'); });
+    item.addEventListener('dragend', () => { dragging = null; item.classList.remove('dragging'); updatePriorities(); });
+    item.addEventListener('dragover', e => { e.preventDefault(); item.classList.add('drag-over'); });
+    item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+    item.addEventListener('drop', e => {
+      e.preventDefault(); item.classList.remove('drag-over');
+      if (dragging && dragging !== item) {
+        const items = [...list.querySelectorAll('.priority-item')];
+        if (items.indexOf(dragging) < items.indexOf(item)) list.insertBefore(dragging, item.nextSibling);
+        else list.insertBefore(dragging, item);
+      }
+    });
+  });
+  function updatePriorities() {
+    list.querySelectorAll('.priority-item').forEach((item, i) => {
+      item.querySelector('.priority-num').textContent = i + 1;
+      item.querySelector('input[type=hidden]').value = i + 1;
+    });
+  }
+</script>
+</body>
+</html>

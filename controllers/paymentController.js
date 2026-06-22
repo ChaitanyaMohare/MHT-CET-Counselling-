@@ -33,7 +33,7 @@ exports.paymentSuccess = async (req, res) => {
     });
 
     req.session.paymentDone = true;
-    res.redirect('/main-form');
+    res.redirect('/thankyou');
   } catch (err) {
     console.error(err);
     res.redirect('/payment');

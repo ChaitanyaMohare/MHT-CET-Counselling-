@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
+</head>
+<body class="admin-body">
+  <div class="admin-login-wrap">
+    <div class="admin-login-card">
+      <div class="admin-login-logo">
+        <div class="navbar-logo-icon">🎓</div>
+        <div>
+          <div style="font-size:1.1rem;font-weight:800;color:var(--navy);">MHT-CET <span style="color:var(--blue2);">Counselling</span></div>
+          <div style="font-size:0.7rem;color:var(--muted);">Admin Panel</div>
+        </div>
+      </div>
+
+      <h2 class="admin-login-title">Welcome Back</h2>
+      <p class="admin-login-sub">Sign in to access the admin dashboard</p>
+
+      <% if (error) { %>
+        <div class="alert alert-error" style="margin-bottom:1.2rem;">⚠️ <%= error %></div>
+      <% } %>
+
+      <form action="/admin/login" method="POST">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Username</label>
+          <input type="text" name="username" placeholder="Enter admin username" required autofocus />
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem;">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Enter password" required />
+        </div>
+        <button type="submit" class="form-submit-btn" style="margin-top:0;">Sign In →</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
