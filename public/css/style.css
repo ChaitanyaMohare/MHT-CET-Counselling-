@@ -268,6 +268,24 @@ body {
   margin-bottom: 1.5rem;
   filter: drop-shadow(0 4px 8px rgba(26,86,219,0.2));
 }
+/* Photo variant — fills the card */
+.fan-glass-photo {
+  overflow: hidden;
+  padding: 0;
+}
+.fan-glass-photo::before {
+  background: rgba(26,86,219,0.45);
+  color: #fff;
+  z-index: 2;
+}
+.fan-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 13px;
+  display: block;
+}
 
 /* ── Description list beside the fan ── */
 .fan-desc-group {
@@ -360,14 +378,30 @@ body {
 .faq-item.open .faq-a { max-height: 200px; padding: 0 1.25rem 1rem; }
 
 /* ===== CTA BANNER ===== */
-.cta-banner { padding: 3rem 2rem; background: #fff; }
+.cta-banner { padding: 3rem 2rem; background: #fff; overflow: visible; }
 .cta-inner {
   background: linear-gradient(135deg, #1a56db 0%, #3730a3 100%);
   border-radius: 16px; padding: 2.5rem 3rem;
   display: flex; align-items: center;
   justify-content: space-between; gap: 2rem; flex-wrap: wrap;
-  box-shadow: 0 8px 40px rgba(26,86,219,0.25);
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 }
+/* Glow effect — the blurred shadow beneath */
+.cta-inner::after {
+  position: absolute;
+  content: "";
+  top: 30px; left: 0; right: 0;
+  z-index: -1;
+  height: 100%; width: 100%;
+  transform: scale(0.85);
+  filter: blur(28px);
+  background: linear-gradient(135deg, #1a56db 0%, #3730a3 100%);
+  border-radius: 16px;
+  transition: opacity 0.5s;
+}
+.cta-inner:hover::after { opacity: 0; }
 .cta-left { display: flex; align-items: center; gap: 1.5rem; }
 .cta-icon {
   background: rgba(255,255,255,0.15); border-radius: 14px;
