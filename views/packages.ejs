@@ -1,11 +1,10 @@
 <%- include('partials/head') %>
 <% const activePage = 'packages'; %>
 <%- include('partials/navbar') %>
-<%- include('partials/progress', { currentStep: 1 }) %>
 
 <div class="page-header">
   <h1>Choose Your Counselling Plan</h1>
-  <p>Pick the plan that fits your needs. All plans include expert guidance and real-time data.</p>
+  <p>Transparent pricing with detailed features. Select the plan that matches your needs.</p>
 </div>
 
 <section class="packages-section">
@@ -16,6 +15,9 @@
           <div class="featured-badge"><%= plan.badge %></div>
         <% } %>
         <div class="plan-name"><%= plan.name %> Plan</div>
+        <% if (plan.subtitle) { %>
+          <div class="plan-subtitle"><%= plan.subtitle %></div>
+        <% } %>
         <div class="plan-price">
           <span class="currency">₹</span>
           <span class="amount"><%= plan.price.toLocaleString('en-IN') %></span>
@@ -26,17 +28,32 @@
             <li><%= f %></li>
           <% }); %>
         </ul>
-        <form action="/select-plan" method="POST">
-          <input type="hidden" name="plan" value="<%= plan.id %>" />
-          <button type="submit" class="plan-select-btn">Select <%= plan.name %> Plan →</button>
-        </form>
+        <% if (plan.tagline) { %>
+          <div class="plan-tagline"><%= plan.tagline %></div>
+        <% } %>
+        <% if (plan.cashfreeLink) { %>
+          <a href="<%= plan.cashfreeLink %>" target="_blank" rel="noopener noreferrer" class="plan-select-btn">
+            Select <%= plan.name %> Plan
+          </a>
+        <% } else { %>
+          <form action="/select-plan" method="POST">
+            <input type="hidden" name="plan" value="<%= plan.id %>" />
+            <button type="submit" class="plan-select-btn">Select <%= plan.name %> Plan</button>
+          </form>
+        <% } %>
       </div>
     <% }); %>
   </div>
 
   <div style="text-align:center;margin-top:3rem;color:#64748b;font-size:0.85rem;">
-    <p>🔒 Secure payment powered by Cashfree. &nbsp;|&nbsp; 💬 Questions? <a href="/contact" style="color:var(--blue);">Contact us</a></p>
+    <p>
+      <img src="https://cdn-icons-png.flaticon.com/512/159/159469.png" alt="Secure" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;" />
+      Secure payment powered by Cashfree. &nbsp;|&nbsp; 
+      <img src="https://cdn-icons-png.flaticon.com/512/1034/1034131.png" alt="Questions" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;" />
+      Questions? <a href="/contact" style="color:var(--blue);">Contact us</a>
+    </p>
   </div>
 </section>
 
 <%- include('partials/footer') %>
+
