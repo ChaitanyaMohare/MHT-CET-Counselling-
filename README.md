@@ -1,9 +1,8 @@
-# 🎓 MHT-CET Counselling
+# NextStep — Guiding Every Step to Your Dream College
 
-> **Right College. Right Branch. Bright Future.**
-> A full-stack web application providing expert-guided MHT-CET engineering admission counselling for Maharashtra aspirants.
+> A full-stack MHT-CET college admission counselling platform for Maharashtra engineering aspirants.
 
-![Node.js](https://img.shields.io/badge/Node.js-22.x-green?logo=node.js)
+![Node.js](https://img.shields.io/badge/Node.js-22.x-green?logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-4.x-black?logo=express)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-green?logo=mongodb)
 ![EJS](https://img.shields.io/badge/Template-EJS-yellow)
@@ -11,14 +10,9 @@
 
 ---
 
-## 📌 Overview
+## 📌 What is NextStep?
 
-MHT-CET Counselling is a complete admission guidance platform that helps engineering aspirants in Maharashtra:
-
-- Get **personalized college predictions** based on CET percentile, category, and preferences
-- Access **real-time cutoff data** for all colleges and branches
-- Book **1-on-1 expert counselling sessions**
-- Get help with **CAP choice filling**, document verification, and form submission
+NextStep helps MHT-CET engineering aspirants in Maharashtra navigate the CAP admission process with confidence. Students register, choose a counselling plan, and complete payment. The expert counsellor then calls the student, fills in their college preferences via the admin panel, and delivers a personalised college shortlist.
 
 ---
 
@@ -26,27 +20,26 @@ MHT-CET Counselling is a complete admission guidance platform that helps enginee
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | EJS Templates, HTML5, CSS3 |
-| Backend | Node.js, Express.js |
-| Database | MongoDB (via Mongoose) |
+| Frontend | EJS, HTML5, CSS3 |
+| Backend | Node.js + Express.js |
+| Database | MongoDB (Mongoose) |
 | Sessions | express-session + connect-mongo |
-| Payment | Cashfree Payment Gateway (placeholder) |
-| Env Config | dotenv |
+| Payment | Cashfree Payment Gateway |
+| Auth | Session-based admin login |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-MHT-CET-Counselling/
-├── app.js                        # Express app entry point
-├── .env                          # Environment variables (not committed)
+NextStep/
+├── app.js                         # Express entry point
 ├── package.json
 │
 ├── models/
-│   ├── Student.js                # Student registration + payment schema
-│   ├── CounsellingForm.js        # Full 8-section counselling form schema
-│   └── Contact.js                # Contact inquiry schema
+│   ├── Student.js                 # Student registration + payment
+│   ├── CounsellingForm.js         # 8-section counselling preferences
+│   └── Contact.js                 # Contact inquiries
 │
 ├── controllers/
 │   ├── indexController.js
@@ -54,7 +47,8 @@ MHT-CET-Counselling/
 │   ├── basicInfoController.js
 │   ├── paymentController.js
 │   ├── mainFormController.js
-│   └── contactController.js
+│   ├── contactController.js
+│   └── adminController.js
 │
 ├── routes/
 │   ├── index.js
@@ -63,28 +57,36 @@ MHT-CET-Counselling/
 │   ├── payment.js
 │   ├── mainForm.js
 │   ├── contact.js
-│   └── terms.js
+│   ├── terms.js
+│   └── admin.js
 │
 ├── views/
 │   ├── partials/
-│   │   ├── head.ejs              # HTML head + Google Fonts
-│   │   ├── navbar.ejs            # Sticky white navbar
-│   │   ├── footer.ejs            # Simple footer (used by inner pages)
-│   │   └── progress.ejs          # 5-step progress bar
-│   ├── index.ejs                 # Homepage
-│   ├── packages.ejs              # Pricing plans
-│   ├── basic-info.ejs            # Pre-payment student form
-│   ├── payment.ejs               # Payment page (Cashfree)
-│   ├── main-form.ejs             # 8-section counselling form
-│   ├── thankyou.ejs              # Confirmation page
-│   ├── contact.ejs               # Contact us page
-│   ├── terms.ejs                 # Terms & Conditions
-│   ├── 404.ejs                   # Not found page
-│   └── error.ejs                 # Error page
+│   │   ├── head.ejs
+│   │   ├── navbar.ejs
+│   │   ├── footer.ejs
+│   │   └── progress.ejs
+│   ├── admin/
+│   │   ├── login.ejs
+│   │   ├── dashboard.ejs
+│   │   ├── student-detail.ejs
+│   │   └── partials/
+│   │       ├── sidebar.ejs
+│   │       └── topbar.ejs
+│   ├── index.ejs
+│   ├── packages.ejs
+│   ├── basic-info.ejs
+│   ├── payment.ejs
+│   ├── thankyou.ejs
+│   ├── contact.ejs
+│   └── terms.ejs
 │
 └── public/
-    └── css/
-        └── style.css             # Full responsive stylesheet
+    ├── css/
+    │   ├── style.css
+    │   └── admin.css
+    └── images/
+        └── logo (2).png
 ```
 
 ---
@@ -93,7 +95,7 @@ MHT-CET-Counselling/
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) v18 or higher
+- [Node.js](https://nodejs.org/) v18+
 - [MongoDB](https://www.mongodb.com/) running locally or a MongoDB Atlas URI
 
 ### 1. Clone the repository
@@ -109,29 +111,17 @@ cd MHT-CET-Counselling-
 npm install
 ```
 
-### 3. Create `.env` file
-
-Create a `.env` file in the root directory:
-
-```env
-MONGO_URI=mongodb://localhost:27017/mhtcet_counselling
-SESSION_SECRET=your_super_secret_key_here
-CASHFREE_APP_ID=your_cashfree_app_id
-CASHFREE_SECRET_KEY=your_cashfree_secret_key
-PORT=3000
-```
-
-### 4. Start the server
+### 3. Start the server
 
 ```bash
-# Production
-npm start
+# Development (auto-reload)
+npx nodemon app.js
 
-# Development (with auto-reload)
-npm run dev
+# Production
+node app.js
 ```
 
-### 5. Open in browser
+### 4. Open in browser
 
 ```
 http://localhost:3000
@@ -139,88 +129,91 @@ http://localhost:3000
 
 ---
 
-## 📄 Pages & Routes
+## 🔄 Student Flow
 
-| Route | Method | Description |
-|-------|--------|-------------|
-| `/` | GET | Homepage with hero, features, FAQ |
-| `/packages` | GET | Pricing plans (Basic / Pro / Premium) |
-| `/select-plan` | POST | Save selected plan → redirect to basic info |
-| `/basic-info` | GET | Pre-payment student information form |
-| `/basic-info` | POST | Save student to MongoDB → redirect to payment |
-| `/payment` | GET | Payment page with order summary |
-| `/payment-success` | POST | Update payment status → redirect to main form |
-| `/main-form` | GET | 8-section post-payment counselling form |
-| `/main-form` | POST | Save counselling form → redirect to thank you |
-| `/thankyou` | GET | Submission confirmation page |
-| `/contact` | GET | Contact us page |
-| `/contact` | POST | Save contact inquiry to MongoDB |
-| `/terms` | GET | Terms & Conditions page |
+```
+Homepage → Choose Plan → Basic Info Form → Payment → Thank You Page
+```
+
+After payment the student sees a confirmation page. The expert counsellor then calls the student and fills their counselling preferences via the **Admin Panel**.
 
 ---
 
-## 🗂️ Counselling Form Sections
+## 🛡️ Admin Panel
 
-The main counselling form (Section A–H) covers:
+Access at **`/admin`** — session-protected.
 
-| Section | Details |
-|---------|---------|
+| Page | URL | Description |
+|------|-----|-------------|
+| Login | `/admin/login` | Admin sign-in |
+| Dashboard | `/admin` | All students, stats, search & filter |
+| Student Profile | `/admin/student/:id` | Full profile + counselling form |
+| Logout | `/admin/logout` | End admin session |
+
+**Dashboard features:**
+- Stats cards — Total / Paid / Pending / Forms Filled
+- Search by name, mobile, or email
+- Filter by payment status
+- Per-student 📞 Call and 💬 WhatsApp buttons
+- "View & Fill Form" opens the full 8-section counselling form
+
+---
+
+## 📄 Routes Reference
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/` | GET | Homepage |
+| `/packages` | GET | Pricing plans |
+| `/select-plan` | POST | Save plan → redirect to basic info |
+| `/basic-info` | GET / POST | Student info form |
+| `/payment` | GET | Payment page |
+| `/payment-success` | POST | Confirm payment → redirect to thank you |
+| `/thankyou` | GET | Confirmation page |
+| `/contact` | GET / POST | Contact form |
+| `/terms` | GET | Terms & Conditions |
+| `/admin/login` | GET / POST | Admin login |
+| `/admin` | GET | Admin dashboard |
+| `/admin/student/:id` | GET | Student profile |
+| `/admin/student/:id/form` | POST | Save counselling form |
+| `/admin/logout` | GET | Admin logout |
+
+---
+
+## 🗂️ Counselling Form — Section Overview
+
+The admin fills this form during or after the call with the student.
+
+| Section | Topic |
+|---------|-------|
 | A | Branch preferences (primary + up to 5 secondary) |
 | B | College type (Govt / Private / Autonomous etc.) |
-| C | Location preferences and home district |
-| D | College quality (NAAC, NBA, ranking, placement) |
-| E | Financial preferences (fee budget, hostel, scholarship) |
-| F | Priority ranking (drag & drop — 1 to 5) |
-| G | Special preferences (quota, target/exclude college) |
+| C | Location & home district |
+| D | College quality — NAAC, NBA, ranking, placement |
+| E | Fee budget, hostel, scholarship |
+| F | Priority ranking (drag & drop 1–5) |
+| G | Special preferences — quota, target/exclude college |
 | H | Career goals and post-graduation plans |
 
 ---
 
-## 💳 Payment Integration
+## 💳 Pricing Plans
 
-The payment flow uses **Cashfree Payment Gateway**. Currently the Pay button simulates a successful payment for development. To go live:
-
-1. Sign up at [cashfree.com](https://www.cashfree.com/)
-2. Add your `CASHFREE_APP_ID` and `CASHFREE_SECRET_KEY` to `.env`
-3. Replace the simulated form in `views/payment.ejs` with the [Cashfree JS SDK](https://docs.cashfree.com/docs/web-checkout-seamless)
-
----
-
-## 📦 Pricing Plans
-
-| Plan | Price | Key Features |
-|------|-------|-------------|
-| Basic | ₹999 | PDF college list, 1 expert call (30 min) |
-| Pro ⭐ | ₹1,999 | Personalized shortlist, 3 expert calls, branch guidance |
-| Premium | ₹4,999 | Full support, unlimited calls, form filling, priority 24/7 |
+| Plan | Price | Highlights |
+|------|-------|-----------|
+| Basic | ₹999 | PDF college list + 1 expert call (30 min) |
+| Pro ⭐ | ₹1,999 | Personalised shortlist + 3 expert calls + branch guidance |
+| Premium | ₹4,999 | Full support + unlimited calls + form filling + priority 24/7 |
 
 ---
 
-## 🔒 Security
+## � Payment Integration
 
-- Passwords / secrets stored in `.env` (excluded from git)
-- Session data stored in MongoDB via `connect-mongo`
-- Server-side validation on all form inputs
-- Input sanitization and type checking before DB writes
-- Session-protected routes (each step requires the previous step)
-
----
-
-## 🌐 Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| `MONGO_URI` | MongoDB connection string |
-| `SESSION_SECRET` | Secret key for express-session |
-| `CASHFREE_APP_ID` | Cashfree payment gateway App ID |
-| `CASHFREE_SECRET_KEY` | Cashfree payment gateway secret key |
-| `PORT` | Server port (default: 3000) |
+Payment is handled via **Cashfree Payment Gateway**. The current setup simulates a successful payment for development. To go live, replace the simulated form in `views/payment.ejs` with the [Cashfree JS SDK](https://docs.cashfree.com/docs/web-checkout-seamless).
 
 ---
 
 ## 📸 Screenshots
-
-> Homepage · Packages · Basic Info Form · Payment · Counselling Form · Thank You
 
 *(Add screenshots here after deployment)*
 
@@ -230,15 +223,15 @@ The payment flow uses **Cashfree Payment Gateway**. Currently the Pay button sim
 
 1. Fork the repository
 2. Create your feature branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin feature/your-feature`
+3. Commit: `git commit -m "Add your feature"`
+4. Push: `git push origin feature/your-feature`
 5. Open a Pull Request
 
 ---
 
 ## 📜 License
 
-This project is licensed under the **MIT License** — feel free to use and modify for your own projects.
+MIT License — free to use and modify.
 
 ---
 
