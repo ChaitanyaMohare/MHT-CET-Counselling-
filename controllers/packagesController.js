@@ -2,44 +2,60 @@ const plans = [
   {
     id: 'Basic',
     name: 'Basic',
-    price: 999,
+    price: 499,
+    subtitle: 'College Discovery Package',
     features: [
-      'PDF college list based on percentile',
-      '1 Expert call (30 minutes)',
-      'Email support',
-      'College eligibility report'
+      'Personalized College List',
+      'Dream / Target / Safe Colleges',
+      'Branch Recommendations',
+      'Cutoff Analysis',
+      'College Comparison Sheet',
+      'PDF Report'
     ],
+    tagline: 'Best for Students exploring options',
     featured: false,
-    badge: null
+    badge: null,
+    cashfreeLink: 'https://payments.cashfree.com/forms/pravesh-mitra-basic-plan'
   },
   {
-    id: 'Pro',
-    name: 'Pro',
-    price: 1999,
+    id: 'Standard',
+    name: 'Standard',
+    price: 999,
+    subtitle: 'Admission Strategy Package',
     features: [
-      'Personalized college shortlist',
-      '3 Expert counselling calls',
-      'Branch guidance & analysis',
-      'Priority email support',
-      'Cut-off comparison report'
+      'Everything in Basic Plan',
+      '1-on-1 Counseling Call (30-45 mins)',
+      'Branch Selection Guidance',
+      'Option Form Strategy',
+      'College vs Branch Decision Support',
+      'Real Insights from Seniors',
+      'WhatsApp Support for 7 Days'
     ],
+    tagline: 'Best for Students confused about choices',
     featured: true,
-    badge: 'Most Popular'
+    badge: 'Most Popular',
+    cashfreeLink: 'https://payments.cashfree.com/forms/pravesh-mitra-standard-plan'
   },
   {
     id: 'Premium',
     name: 'Premium',
-    price: 4999,
+    price: 1999,
+    subtitle: 'Complete CAP Support',
     features: [
-      'Full counselling support',
-      'Unlimited expert calls',
-      'Form filling assistance',
-      'Priority support 24/7',
-      'Document verification help',
-      'College visit guidance'
+      'Everything in Standard Plan',
+      'Support Throughout All CAP Rounds',
+      'Option Form Review',
+      'Round-wise Guidance',
+      'Freeze / Betterment Advice',
+      'Spot Round Guidance',
+      'Priority WhatsApp Support',
+      'Multiple Counseling Sessions',
+      'Connect with Real Seniors'
     ],
+    tagline: 'Best for Complete admission support',
     featured: false,
-    badge: 'Best Value'
+    badge: 'Best Value',
+    cashfreeLink: 'https://payments.cashfree.com/forms/pravesh-mitra-premium-plan'
   }
 ];
 

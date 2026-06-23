@@ -10,8 +10,8 @@ const app = express();
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB error:', err));
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB error:', err));
 
 // View engine
 app.set('view engine', 'ejs');
@@ -46,6 +46,7 @@ app.use('/', require('./routes/payment'));
 app.use('/', require('./routes/mainForm'));
 app.use('/', require('./routes/contact'));
 app.use('/', require('./routes/terms'));
+app.use('/', require('./routes/privacy'));
 app.use('/', require('./routes/admin'));
 
 // 404

@@ -6,12 +6,13 @@
   <a href="/packages" class="back-link">← Back to Plans</a>
 
   <div class="plan-info-banner">
-    🎯 Selected Plan: <strong><%= plan %> Plan</strong> &nbsp;|&nbsp; Amount: <strong>₹<%= amount ? amount.toLocaleString('en-IN') : '' %></strong>
+    <img src="https://cdn-icons-png.flaticon.com/512/1827/1827504.png" alt="Selected Plan" style="width:18px;height:18px;vertical-align:middle;margin-right:6px;" />
+    Selected Plan: <strong><%= plan %> Plan</strong> &nbsp;|&nbsp; Amount: <strong>₹<%= amount ? amount.toLocaleString('en-IN') : '' %></strong>
   </div>
 
   <% if (errors && errors.length > 0) { %>
     <div class="alert alert-error">
-      <span>⚠️</span>
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Error" style="width:18px;height:18px;vertical-align:middle;margin-right:4px;flex-shrink:0;" />
       <ul>
         <% errors.forEach(e => { %><li><%= e %></li><% }); %>
       </ul>
@@ -24,7 +25,10 @@
     <!-- Personal Details -->
     <div class="form-card">
       <div class="form-section-title">
-        <div class="section-icon">👤</div> Personal Details
+        <div class="section-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Personal" style="width:18px;height:18px;" />
+        </div> 
+        Personal Details
       </div>
       <div class="form-grid three">
         <div class="form-group">
@@ -66,7 +70,10 @@
     <!-- Academic Details -->
     <div class="form-card">
       <div class="form-section-title">
-        <div class="section-icon">📚</div> Academic Details
+        <div class="section-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="Academic" style="width:18px;height:18px;" />
+        </div> 
+        Academic Details
       </div>
       <div class="form-grid">
         <div class="form-group full">
@@ -110,7 +117,10 @@
     <!-- Category & Domicile -->
     <div class="form-card">
       <div class="form-section-title">
-        <div class="section-icon">📋</div> Category & Domicile
+        <div class="section-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/2541/2541988.png" alt="Category" style="width:18px;height:18px;" />
+        </div> 
+        Category & Domicile
       </div>
       <div class="form-grid">
         <div class="form-group">
@@ -146,7 +156,7 @@
       </div>
     </div>
 
-    <button type="submit" class="form-submit-btn">Proceed to Payment →</button>
+    <button type="submit" class="form-submit-btn">Proceed to Payment</button>
   </form>
 </div>
 
