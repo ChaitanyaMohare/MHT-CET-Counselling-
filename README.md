@@ -213,12 +213,6 @@ Payment is handled via **Cashfree Payment Gateway**. The current setup simulates
 
 ---
 
-## 📸 Screenshots
-
-*(Add screenshots here after deployment)*
-
----
-
 ## 🤝 Contributing
 
 1. Fork the repository
