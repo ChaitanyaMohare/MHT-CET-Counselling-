@@ -83,7 +83,7 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
 
       <!-- CTA Button -->
       <div style="text-align:center;margin-bottom:28px;">
-        <a href="http://localhost:3000/packages"
+        <a href="https://praveshmitra.online/packages"
            style="display:inline-block;background:linear-gradient(135deg,#1a56db,#3730a3);color:#fff;padding:14px 36px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.95rem;letter-spacing:0.3px;">
           View Counselling Plans →
         </a>
@@ -92,7 +92,7 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
       <!-- Helpline -->
       <div style="text-align:center;padding:16px;background:#f8fafc;border-radius:8px;">
         <p style="margin:0;color:#64748b;font-size:0.85rem;">
-          📞 Helpline: <strong style="color:#0a0f2e;">+91 12345 67890</strong> &nbsp;|&nbsp;
+          📞 Helpline: <strong style="color:#0a0f2e;">+91 95296 79073</strong> &nbsp;|&nbsp;
           💬 <a href="https://wa.me/919999999999" style="color:#16a34a;text-decoration:none;font-weight:600;">Chat on WhatsApp</a>
         </p>
       </div>
