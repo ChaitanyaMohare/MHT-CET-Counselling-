@@ -57,7 +57,7 @@
 .admin-content { padding: 2rem; flex: 1; }
 
 /* Stats row */
-.admin-stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; margin-bottom: 1.75rem; }
+.admin-stats-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 1.25rem; margin-bottom: 1.75rem; }
 .admin-stat-card {
   background: #fff; border-radius: var(--radius); padding: 1.5rem;
   display: flex; align-items: center; gap: 1rem;
@@ -177,7 +177,7 @@
 
 /* Responsive */
 @media (max-width: 1100px) {
-  .admin-stats-row { grid-template-columns: repeat(2,1fr); }
+  .admin-stats-row { grid-template-columns: repeat(3,1fr); }
   .student-info-grid { grid-template-columns: repeat(3,1fr); }
 }
 @media (max-width: 768px) {

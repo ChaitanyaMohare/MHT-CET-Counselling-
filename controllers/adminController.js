@@ -1,5 +1,6 @@
 const Student = require('../models/Student');
 const CounsellingForm = require('../models/CounsellingForm');
+const QuickLead = require('../models/QuickLead');
 
 const ADMIN_USER = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASS = process.env.ADMIN_PASSWORD || 'admin123';
@@ -66,11 +67,12 @@ exports.getDashboard = async (req, res) => {
     const paidStudents = await Student.countDocuments({ paymentStatus: 'paid' });
     const pendingStudents = await Student.countDocuments({ paymentStatus: 'pending_payment' });
     const formsCount = await CounsellingForm.countDocuments();
+    const quickLeadsCount = await QuickLead.countDocuments();
 
     res.render('admin/dashboard', {
-      title: 'Admin Dashboard — MHT-CET Counselling',
+      title: 'Admin Dashboard — NextStep',
       students: enriched,
-      stats: { totalStudents, paidStudents, pendingStudents, formsCount },
+      stats: { totalStudents, paidStudents, pendingStudents, formsCount, quickLeadsCount },
       filter,
       search
     });

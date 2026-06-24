@@ -48,6 +48,7 @@ app.use('/', require('./routes/contact'));
 app.use('/', require('./routes/terms'));
 app.use('/', require('./routes/privacy'));
 app.use('/', require('./routes/admin'));
+app.use('/', require('./routes/quickLead'));
 
 // 404
 app.use((req, res) => {
