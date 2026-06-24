@@ -1,6 +1,6 @@
 # NextStep — Guiding Every Step to Your Dream College
 
-> A full-stack MHT-CET college admission counselling platform for Maharashtra engineering aspirants.
+> A full-stack MHT-CET college admission counselling platform for Maharashtra engineering aspirants...
 
 ![Node.js](https://img.shields.io/badge/Node.js-22.x-green?logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-4.x-black?logo=express)
