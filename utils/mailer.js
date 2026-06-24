@@ -1,5 +1,27 @@
-const { Resend } = require('resend');
-const resend = new Resend(process.env.RESEND_API_KEY);
+const nodemailer = require('nodemailer');
+
+// Create Gmail transporter with enhanced configuration
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+// Verify transporter configuration
+transporter.verify(function (error, success) {
+  if (error) {
+    console.error('❌ SMTP connection error:', error);
+  } else {
+    console.log('✅ SMTP server is ready to send emails');
+  }
+});
 
 // Package data for email
 const packages = [
@@ -66,122 +88,207 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
     ? cities.join(', ')
     : 'Not specified';
 
-  // Generate package cards HTML
+  // Generate package cards HTML (table-based for better email client support)
   const packageCards = packages.map(pkg => `
-    <div style="background:#fff;border:2px solid ${pkg.badge ? '#1a56db' : '#e2e8f0'};border-radius:12px;padding:20px;margin-bottom:16px;position:relative;">
-      ${pkg.badge ? `<div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1a56db,#4F6EF7);color:#fff;padding:4px 16px;border-radius:20px;font-size:0.7rem;font-weight:700;">${pkg.badge}</div>` : ''}
-      <h3 style="color:#0a0f2e;font-size:1.15rem;font-weight:800;margin:${pkg.badge ? '8px' : '0'} 0 4px;">${pkg.name} Plan</h3>
-      <p style="color:#64748b;font-size:0.8rem;margin:0 0 12px;">${pkg.subtitle}</p>
-      <div style="display:flex;align-items:flex-end;gap:4px;margin-bottom:12px;">
-        <span style="font-size:2rem;font-weight:900;color:#1a56db;line-height:1;">${pkg.price}</span>
-        <span style="font-size:0.75rem;color:#64748b;margin-bottom:4px;">/ one-time</span>
-      </div>
-      <ul style="list-style:none;padding:0;margin:0 0 16px;">
-        ${pkg.features.map(f => `<li style="display:flex;align-items:flex-start;gap:8px;margin:6px 0;font-size:0.82rem;color:#374151;"><span style="color:#22c55e;font-weight:700;flex-shrink:0;">✓</span><span>${f}</span></li>`).join('')}
-      </ul>
-      <a href="${pkg.link}" style="display:block;text-align:center;background:${pkg.badge ? '#1a56db' : '#f1f5f9'};color:${pkg.badge ? '#fff' : '#0a0f2e'};padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.88rem;">
-        Select ${pkg.name} Plan →
-      </a>
-    </div>
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#ffffff;border:2px solid ${pkg.badge ? '#1a56db' : '#e2e8f0'};border-radius:8px;margin-bottom:16px;">
+      ${pkg.badge ? `
+      <tr>
+        <td style="padding:8px 0 0;text-align:center;">
+          <span style="display:inline-block;background:linear-gradient(135deg,#1a56db,#4F6EF7);color:#ffffff;padding:4px 16px;border-radius:20px;font-size:11px;font-weight:bold;">${pkg.badge}</span>
+        </td>
+      </tr>` : ''}
+      <tr>
+        <td style="padding:20px;">
+          <h3 style="color:#0a0f2e;font-size:20px;font-weight:bold;margin:0 0 4px;">${pkg.name} Plan</h3>
+          <p style="color:#64748b;font-size:13px;margin:0 0 12px;">${pkg.subtitle}</p>
+          <p style="margin:0 0 12px;">
+            <span style="font-size:32px;font-weight:bold;color:#1a56db;line-height:1;">${pkg.price}</span>
+            <span style="font-size:12px;color:#64748b;">/ one-time</span>
+          </p>
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom:16px;">
+            ${pkg.features.map(f => `
+            <tr>
+              <td style="padding:4px 0;font-size:14px;color:#374151;">
+                <span style="color:#22c55e;font-weight:bold;margin-right:8px;">✓</span>${f}
+              </td>
+            </tr>`).join('')}
+          </table>
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+            <tr>
+              <td style="text-align:center;">
+                <a href="${pkg.link}" style="display:inline-block;background-color:${pkg.badge ? '#1a56db' : '#f1f5f9'};color:${pkg.badge ? '#ffffff' : '#0a0f2e'};padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:14px;">
+                  Select ${pkg.name} Plan →
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   `).join('');
 
   try {
-    await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'Pravesh Mitra <sauravambhore@gmail.com>',
+    const mailOptions = {
+      from: {
+        name: 'Pravesh Mitra',
+        address: process.env.GMAIL_USER
+      },
       to: toEmail,
-      subject: '✅ Response Submitted Successfully - Pravesh Mitra',
+      replyTo: process.env.GMAIL_USER,
+      subject: 'Thank You for Your Interest - Pravesh Mitra',
+      headers: {
+        'X-Priority': '3',
+        'X-Mailer': 'Pravesh Mitra Counselling System',
+        'Importance': 'normal'
+      },
       html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <title>Thank You - Pravesh Mitra</title>
 </head>
-<body style="margin:0;padding:0;background:#f1f5f9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
-  <div style="max-width:600px;margin:0 auto;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-
-    <!-- Header -->
-    <div style="background:linear-gradient(135deg,#1a56db 0%,#3730a3 100%);padding:36px 40px;text-align:center;">
-      <h1 style="color:#fff;margin:0;font-size:1.7rem;font-weight:800;">प्रवेश<span style="opacity:0.9;">मित्र</span></h1>
-      <p style="color:rgba(255,255,255,0.85);margin:6px 0 0;font-size:0.88rem;font-weight:500;">ऍडमिशन तुमचं, जबाबदारी आमची!</p>
-    </div>
-
-    <!-- Success Message -->
-    <div style="padding:36px 40px;">
-      <div style="text-align:center;margin-bottom:24px;">
-        <div style="width:64px;height:64px;background:#dcfce7;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:16px;">✅</div>
-        <h2 style="color:#0a0f2e;margin:0 0 8px;font-size:1.4rem;font-weight:800;">Response Submitted Successfully!</h2>
-        <p style="color:#64748b;line-height:1.7;margin:0;font-size:0.95rem;">
-          Thank you, <strong style="color:#0a0f2e;">${studentName}</strong>! We've received your information.
-        </p>
-      </div>
-
-      <!-- Submission Summary -->
-      <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:20px 24px;margin-bottom:28px;">
-        <p style="margin:0 0 14px;font-size:0.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;">📋 Your Submission Summary</p>
-        
-        <table style="width:100%;border-collapse:collapse;">
-          <tr style="border-bottom:1px solid #e2e8f0;">
-            <td style="padding:10px 0;color:#64748b;font-size:0.88rem;">Name</td>
-            <td style="padding:10px 0;text-align:right;color:#0a0f2e;font-weight:700;font-size:0.88rem;">${studentName}</td>
-          </tr>
-          ${mhtCetScore ? `
-          <tr style="border-bottom:1px solid #e2e8f0;">
-            <td style="padding:10px 0;color:#64748b;font-size:0.88rem;">MHT-CET Score</td>
-            <td style="padding:10px 0;text-align:right;color:#1a56db;font-weight:700;font-size:0.92rem;">${mhtCetScore}</td>
-          </tr>` : ''}
-          ${jeeScore ? `
-          <tr style="border-bottom:1px solid #e2e8f0;">
-            <td style="padding:10px 0;color:#64748b;font-size:0.88rem;">JEE Score</td>
-            <td style="padding:10px 0;text-align:right;color:#1a56db;font-weight:700;font-size:0.92rem;">${jeeScore}</td>
-          </tr>` : ''}
-          <tr style="border-bottom:1px solid #e2e8f0;">
-            <td style="padding:10px 0;color:#64748b;font-size:0.88rem;vertical-align:top;">Preferred Branches</td>
-            <td style="padding:10px 0;text-align:right;">
-              ${branchList}
+<body style="margin:0;padding:0;background-color:#f1f5f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#f1f5f9;">
+    <tr>
+      <td style="padding:20px 0;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin:0 auto;background-color:#ffffff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#1a56db 0%,#3730a3 100%);padding:36px 40px;text-align:center;border-radius:8px 8px 0 0;">
+              <h1 style="color:#ffffff;margin:0;font-size:28px;font-weight:bold;">प्रवेश<span style="opacity:0.9;">मित्र</span></h1>
+              <p style="color:rgba(255,255,255,0.9);margin:8px 0 0;font-size:14px;">ऍडमिशन तुमचं, जबाबदारी आमची!</p>
             </td>
           </tr>
+
+          <!-- Success Message -->
           <tr>
-            <td style="padding:10px 0;color:#64748b;font-size:0.88rem;">Preferred Cities</td>
-            <td style="padding:10px 0;text-align:right;color:#0a0f2e;font-weight:600;font-size:0.88rem;">${cityList}</td>
-          </tr>
-        </table>
-      </div>
+            <td style="padding:40px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <td style="text-align:center;padding-bottom:24px;">
+                    <div style="width:64px;height:64px;background-color:#dcfce7;border-radius:50%;display:inline-block;line-height:64px;font-size:32px;margin-bottom:16px;">✅</div>
+                    <h2 style="color:#0a0f2e;margin:0 0 12px;font-size:24px;font-weight:bold;">Thank You for Your Interest!</h2>
+                    <p style="color:#64748b;line-height:1.6;margin:0;font-size:16px;">
+                      Dear <strong style="color:#0a0f2e;">${studentName}</strong>, we have successfully received your information.
+                    </p>
+                  </td>
+                </tr>
+              </table>
 
-      <!-- Next Steps -->
-      <div style="background:linear-gradient(135deg,rgba(26,86,219,0.08),rgba(79,110,247,0.08));border:1.5px solid rgba(26,86,219,0.2);border-radius:12px;padding:20px 24px;margin-bottom:32px;">
-        <h3 style="margin:0 0 14px;font-weight:800;color:#0a0f2e;font-size:1.05rem;">🚀 What Happens Next?</h3>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;align-items:flex-start;gap:12px;">
-            <span style="background:#1a56db;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0;">1</span>
-            <p style="margin:0;color:#374151;font-size:0.88rem;line-height:1.6;">
-              <strong style="color:#0a0f2e;">Choose Your Plan</strong><br/>
-              Browse our counselling packages below and select the one that fits your needs.
-            </p>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:12px;">
-            <span style="background:#1a56db;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0;">2</span>
-            <p style="margin:0;color:#374151;font-size:0.88rem;line-height:1.6;">
-              <strong style="color:#0a0f2e;">Complete Payment</strong><br/>
-              Secure checkout via Cashfree Payment Gateway. 100% safe & encrypted.
-            </p>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:12px;">
-            <span style="background:#1a56db;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0;">3</span>
-            <p style="margin:0;color:#374151;font-size:0.88rem;line-height:1.6;">
-              <strong style="color:#0a0f2e;">Expert Counselling</strong><br/>
-              Our counsellor will call you within <strong style="color:#1a56db;">24 hours</strong> to discuss your college options.
-            </p>
-          </div>
-        </div>
-      </div>
+              <!-- Submission Summary -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:20px;">
+                    <p style="margin:0 0 12px;font-size:12px;font-weight:bold;color:#94a3b8;text-transform:uppercase;">📋 Your Submission Summary</p>
+                    
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr style="border-bottom:1px solid #e2e8f0;">
+                        <td style="padding:10px 0;color:#64748b;font-size:14px;">Name</td>
+                        <td style="padding:10px 0;text-align:right;color:#0a0f2e;font-weight:bold;font-size:14px;">${studentName}</td>
+                      </tr>
+                      ${mhtCetScore ? `
+                      <tr style="border-bottom:1px solid #e2e8f0;">
+                        <td style="padding:10px 0;color:#64748b;font-size:14px;">MHT-CET Score</td>
+                        <td style="padding:10px 0;text-align:right;color:#1a56db;font-weight:bold;font-size:14px;">${mhtCetScore}</td>
+                      </tr>` : ''}
+                      ${jeeScore ? `
+                      <tr style="border-bottom:1px solid #e2e8f0;">
+                        <td style="padding:10px 0;color:#64748b;font-size:14px;">JEE Score</td>
+                        <td style="padding:10px 0;text-align:right;color:#1a56db;font-weight:bold;font-size:14px;">${jeeScore}</td>
+                      </tr>` : ''}
+                      <tr style="border-bottom:1px solid #e2e8f0;">
+                        <td style="padding:10px 0;color:#64748b;font-size:14px;vertical-align:top;">Branches</td>
+                        <td style="padding:10px 0;text-align:right;font-size:13px;color:#0a0f2e;">${branches.length > 0 ? branches.join(', ') : 'Not specified'}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:10px 0;color:#64748b;font-size:14px;">Cities</td>
+                        <td style="padding:10px 0;text-align:right;color:#0a0f2e;font-size:14px;">${cityList}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
 
-      <!-- Package Cards -->
-      <div style="margin-bottom:32px;">
-        <h3 style="text-align:center;color:#0a0f2e;font-size:1.25rem;font-weight:800;margin:0 0 20px;">Choose Your Counselling Plan</h3>
-        ${packageCards}
-      </div>
+              <!-- Next Steps -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#e8f0fe;border:1px solid #c7d7fa;border-radius:8px;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:20px;">
+                    <h3 style="margin:0 0 16px;font-weight:bold;color:#0a0f2e;font-size:18px;">🚀 What Happens Next?</h3>
+                    
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="padding-bottom:12px;">
+                          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                              <td width="30" style="vertical-align:top;">
+                                <div style="background-color:#1a56db;color:#ffffff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-weight:bold;font-size:12px;">1</div>
+                              </td>
+                              <td style="padding-left:8px;">
+                                <p style="margin:0;color:#374151;font-size:14px;line-height:1.5;">
+                                  <strong style="color:#0a0f2e;">Choose Your Plan</strong><br/>
+                                  Select a counselling package that fits your needs.
+                                </p>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-bottom:12px;">
+                          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                              <td width="30" style="vertical-align:top;">
+                                <div style="background-color:#1a56db;color:#ffffff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-weight:bold;font-size:12px;">2</div>
+                              </td>
+                              <td style="padding-left:8px;">
+                                <p style="margin:0;color:#374151;font-size:14px;line-height:1.5;">
+                                  <strong style="color:#0a0f2e;">Complete Payment</strong><br/>
+                                  Secure checkout via Cashfree Gateway.
+                                </p>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                              <td width="30" style="vertical-align:top;">
+                                <div style="background-color:#1a56db;color:#ffffff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-weight:bold;font-size:12px;">3</div>
+                              </td>
+                              <td style="padding-left:8px;">
+                                <p style="margin:0;color:#374151;font-size:14px;line-height:1.5;">
+                                  <strong style="color:#0a0f2e;">Expert Counselling</strong><br/>
+                                  We'll call you within 24 hours.
+                                </p>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Package Cards -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <td style="padding-bottom:16px;">
+                    <h3 style="text-align:center;color:#0a0f2e;font-size:20px;font-weight:bold;margin:0 0 20px;">Choose Your Counselling Plan</h3>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ${packageCards}
+                  </td>
+                </tr>
+              </table>
 
       <!-- Contact Info -->
       <div style="text-align:center;padding:20px;background:#f8fafc;border-radius:10px;margin-bottom:24px;">
@@ -221,8 +328,9 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
   </div>
 </body>
 </html>`
-    });
+    };
 
+    await transporter.sendMail(mailOptions);
     console.log(`✅ Quick Lead thank-you email sent to ${toEmail}`);
     return { success: true };
   } catch (error) {
