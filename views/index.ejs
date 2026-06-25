@@ -250,6 +250,58 @@
 
 
 <!-- ═══════════════════════════════════════════
+     TEAM / EXPERTS
+════════════════════════════════════════════ -->
+<section class="pm-team">
+  <div class="pm-team__header">
+    <span class="pm-team__eyebrow">Our Experts</span>
+    <h2 class="pm-team__title">Meet the Counselling Team</h2>
+    <p class="pm-team__subtitle">Experienced MHT-CET advisors who have helped thousands of students find the right college and secure their future.</p>
+  </div>
+
+  <div class="pm-team__grid">
+    <%
+    const experts = [
+      { name: "Amit Sharma",    role: "Senior Counsellor",       desc: "8+ years guiding PCM students through CAP rounds and college preference lists.", photo: null, tags: ["PCM", "CAP Round", "Mumbai"] },
+      { name: "Priya Kulkarni", role: "Admission Strategist",    desc: "Specialist in Pune & Nashik region colleges with deep cutoff data expertise.",  photo: null, tags: ["Pune", "Cutoffs", "PCB"] },
+      { name: "Rahul Deshmukh", role: "College Predictor Lead",  desc: "Built our college predictor model using 5 years of historical CET data.",        photo: null, tags: ["Data", "Prediction", "OBC"] },
+      { name: "Sneha Patil",    role: "Student Success Coach",   desc: "Helps students with document verification, ARC visits, and final allotment.",     photo: null, tags: ["ARC", "Documents", "Support"] }
+    ];
+    %>
+    <% experts.forEach(function(expert) {
+      const initials = expert.name.split(' ').map(w => w[0]).join('').slice(0,2);
+    %>
+    <div class="pm-team__card">
+      <div class="pm-team__photo-wrap">
+        <% if (expert.photo) { %>
+          <img src="<%= expert.photo %>" alt="<%= expert.name %>" loading="lazy" />
+        <% } else { %>
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;width:100%;background:linear-gradient(135deg,#1a56db,#3730a3);">
+            <div class="pm-team__avatar-placeholder"><%= initials %></div>
+          </div>
+        <% } %>
+      </div>
+      <div class="pm-team__body">
+        <p class="pm-team__role"><%= expert.role %></p>
+        <h3 class="pm-team__name"><%= expert.name %></h3>
+        <p class="pm-team__desc"><%= expert.desc %></p>
+        <div class="pm-team__tags">
+          <% expert.tags.forEach(function(tag) { %>
+            <span class="pm-team__tag"><%= tag %></span>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+
+  <div class="pm-team__cta">
+    <p>Want personalised guidance from our experts?</p>
+    <a href="/packages">Talk to an Expert →</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
      HOW IT WORKS
 ════════════════════════════════════════════ -->
 <section class="hiw-section">
