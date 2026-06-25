@@ -272,6 +272,7 @@
       const initials = expert.name.split(' ').map(w => w[0]).join('').slice(0,2);
     %>
     <div class="pm-team__card">
+      <span class="pm-team__ribbon"></span>
       <div class="pm-team__photo-wrap">
         <% if (expert.photo) { %>
           <img src="<%= expert.photo %>" alt="<%= expert.name %>" loading="lazy" />
