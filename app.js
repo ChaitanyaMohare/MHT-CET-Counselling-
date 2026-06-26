@@ -41,6 +41,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/packages'));
+app.use('/', require('./routes/registration'));
 app.use('/', require('./routes/basicInfo'));
 app.use('/', require('./routes/payment'));
 app.use('/', require('./routes/mainForm'));

@@ -1,0 +1,98 @@
+<%- include('partials/head') %>
+<% const activePage = ''; %>
+<%- include('partials/navbar') %>
+
+<div style="min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 2rem;text-align:center;background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+  
+  <!-- Success Icon -->
+  <div style="width:120px;height:120px;background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;box-shadow:0 10px 40px rgba(34, 197, 94, 0.3);">
+    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </div>
+
+  <!-- Success Message -->
+  <h1 style="font-size:2.5rem;font-weight:800;color:#0a0f2e;margin-bottom:1rem;line-height:1.2;">
+    Registration Successful!
+  </h1>
+  
+  <p style="color:#475569;font-size:1.1rem;margin-bottom:0.5rem;max-width:600px;line-height:1.6;">
+    Thank you for registering with <strong style="color:#2563eb;">Pravesh Mitra</strong>
+  </p>
+
+  <div style="background:#ffffff;border:2px solid #e2e8f0;border-radius:12px;padding:2rem;margin:2rem 0;max-width:500px;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+    <div style="display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+      <img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png" alt="Call" style="width:40px;height:40px;margin-right:12px;" />
+      <h2 style="color:#1e293b;margin:0;font-size:1.5rem;">What's Next?</h2>
+    </div>
+    
+    <div style="text-align:left;">
+      <div style="display:flex;align-items:start;margin-bottom:1.2rem;">
+        <div style="background:#dbeafe;color:#2563eb;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;margin-right:12px;flex-shrink:0;">1</div>
+        <div>
+          <p style="margin:0;color:#1e293b;font-weight:600;">We Review Your Information</p>
+          <p style="margin:4px 0 0;color:#64748b;font-size:0.9rem;">Our team will carefully review your registration details</p>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:start;margin-bottom:1.2rem;">
+        <div style="background:#dbeafe;color:#2563eb;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;margin-right:12px;flex-shrink:0;">2</div>
+        <div>
+          <p style="margin:0;color:#1e293b;font-weight:600;">Our Team Will Contact You</p>
+          <p style="margin:4px 0 0;color:#64748b;font-size:0.9rem;">Within <strong style="color:#2563eb;">12 hours</strong>, we'll call you to discuss payment options</p>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:start;">
+        <div style="background:#dbeafe;color:#2563eb;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;margin-right:12px;flex-shrink:0;">3</div>
+        <div>
+          <p style="margin:0;color:#1e293b;font-weight:600;">Begin Your Counselling Journey</p>
+          <p style="margin:4px 0 0;color:#64748b;font-size:0.9rem;">After payment confirmation, we'll start working on your college selection</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Information -->
+  <div style="background:#fef3c7;border:2px solid #fbbf24;border-radius:8px;padding:1.5rem;margin-top:2rem;max-width:500px;">
+    <p style="margin:0 0 1rem;color:#78350f;font-size:0.95rem;font-weight:600;">
+      <img src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png" alt="Info" style="width:20px;height:20px;vertical-align:middle;margin-right:6px;" />
+      Need Immediate Assistance?
+    </p>
+    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
+      <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;font-weight:600;display:flex;align-items:center;">
+        <img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png" alt="Phone" style="width:18px;height:18px;margin-right:6px;" />
+        +91 95296 79073
+      </a>
+      <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;font-weight:600;display:flex;align-items:center;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" style="width:18px;height:18px;margin-right:6px;" />
+        WhatsApp Us
+      </a>
+      <a href="mailto:support@praveshmitra.in" style="color:#dc2626;text-decoration:none;font-weight:600;display:flex;align-items:center;">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email" style="width:18px;height:18px;margin-right:6px;" />
+        Email Support
+      </a>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div style="margin-top:3rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+    <a href="/" class="btn2 btn2-primary" style="padding:14px 32px;font-size:1rem;">
+      ← Back to Home
+    </a>
+    <a href="/packages" class="btn2 btn2-ghost" style="padding:14px 32px;font-size:1rem;">
+      View All Plans
+    </a>
+  </div>
+
+  <!-- Assurance Note -->
+  <div style="margin-top:3rem;max-width:600px;">
+    <p style="color:#94a3b8;font-size:0.85rem;line-height:1.6;">
+      <img src="https://cdn-icons-png.flaticon.com/512/159/159469.png" alt="Secure" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" />
+      Your information is safe and secure with us. We will only use it for counselling purposes.
+    </p>
+  </div>
+
+</div>
+
+<%- include('partials/footer') %>
