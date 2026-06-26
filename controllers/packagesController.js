@@ -39,7 +39,7 @@ const plans = [
   {
     id: 'Premium',
     name: 'Premium',
-    price: 1999,
+    price: 1499,
     subtitle: 'Complete CAP Support',
     features: [
       'Everything in Standard Plan',
