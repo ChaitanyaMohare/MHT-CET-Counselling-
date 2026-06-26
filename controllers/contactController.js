@@ -10,6 +10,8 @@ exports.getContact = (req, res) => {
 };
 
 exports.postContact = async (req, res) => {
+  console.log('📞 Contact form submission received:', req.body);
+  
   const { name, mobile, preferredDate, preferredTime, message } = req.body;
   const errors = [];
 
@@ -38,6 +40,7 @@ exports.postContact = async (req, res) => {
   }
 
   if (errors.length > 0) {
+    console.log('⚠️ Contact form validation errors:', errors);
     return res.render('contact', {
       title: 'Ask For A Call — Pravesh Mitra',
       success: false,
@@ -47,7 +50,7 @@ exports.postContact = async (req, res) => {
   }
 
   try {
-    await Contact.create({
+    const contactEntry = await Contact.create({
       name: name.trim(),
       email: 'callback@praveshmitra.in', // Placeholder since email is optional now
       mobile: mobile.trim(),
@@ -56,6 +59,8 @@ exports.postContact = async (req, res) => {
       preferredTime: preferredTime
     });
     
+    console.log(`✅ Callback request saved: ${name} - ${mobile} (ID: ${contactEntry._id})`);
+    
     res.render('contact', {
       title: 'Ask For A Call — Pravesh Mitra',
       success: true,
@@ -63,11 +68,17 @@ exports.postContact = async (req, res) => {
       formData: {}
     });
   } catch (err) {
-    console.error('Contact form error:', err);
+    console.error('❌ Contact form error:', err);
+    console.error('Error details:', {
+      name: err.name,
+      message: err.message,
+      stack: err.stack
+    });
+    
     res.render('contact', {
       title: 'Ask For A Call — Pravesh Mitra',
       success: false,
-      errors: ['Server error. Please try again later.'],
+      errors: ['Server error. Please try again later. Please check your internet connection.'],
       formData: req.body
     });
   }
