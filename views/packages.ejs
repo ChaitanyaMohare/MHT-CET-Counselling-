@@ -31,16 +31,9 @@
         <% if (plan.tagline) { %>
           <div class="plan-tagline"><%= plan.tagline %></div>
         <% } %>
-        <% if (plan.cashfreeLink) { %>
-          <a href="<%= plan.cashfreeLink %>" target="_blank" rel="noopener noreferrer" class="plan-select-btn">
-            Select <%= plan.name %> Plan
-          </a>
-        <% } else { %>
-          <form action="/select-plan" method="POST">
-            <input type="hidden" name="plan" value="<%= plan.id %>" />
-            <button type="submit" class="plan-select-btn">Select <%= plan.name %> Plan</button>
-          </form>
-        <% } %>
+        <a href="/register?plan=<%= plan.id %>" class="plan-select-btn">
+          Select <%= plan.name %> Plan
+        </a>
       </div>
     <% }); %>
   </div>
@@ -48,7 +41,7 @@
   <div style="text-align:center;margin-top:3rem;color:#64748b;font-size:0.85rem;">
     <p>
       <img src="https://cdn-icons-png.flaticon.com/512/159/159469.png" alt="Secure" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;" />
-      Secure payment powered by Cashfree. &nbsp;|&nbsp; 
+      Your data is secure with us. &nbsp;|&nbsp; 
       <img src="https://cdn-icons-png.flaticon.com/512/1034/1034131.png" alt="Questions" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;" />
       Questions? <a href="/contact" style="color:var(--blue);">Contact us</a>
     </p>

@@ -316,4 +316,234 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
   }
 };
 
-module.exports = { sendQuickLeadThankYou };
+/**
+ * Send registration success email to student
+ */
+const sendRegistrationSuccessEmail = async (toEmail, studentData) => {
+  const {
+    fullName,
+    selectedPlan,
+    planPrice,
+    mobile,
+    mhtCetPercentile,
+    jeeMainPercentile,
+    casteCategory,
+    homeUniversity,
+    preferredBranches = [],
+    preferredCities = []
+  } = studentData;
+
+  try {
+    const mailOptions = {
+      from: {
+        name: 'Pravesh Mitra',
+        address: process.env.GMAIL_USER
+      },
+      to: toEmail,
+      replyTo: {
+        name: 'Pravesh Mitra Support',
+        address: process.env.GMAIL_USER
+      },
+      subject: `Registration Confirmed - ${selectedPlan} Plan`,
+      headers: {
+        'X-Priority': '3',
+        'Importance': 'normal',
+        'X-Entity-Ref-ID': `REG-${Date.now()}`,
+        'List-Unsubscribe': `<mailto:${process.env.GMAIL_USER}?subject=unsubscribe>`
+      },
+      text: `
+Hello ${fullName},
+
+Your registration for ${selectedPlan} Plan has been confirmed.
+
+Registration Details:
+- Plan: ${selectedPlan}
+- Price: Rs. ${planPrice}
+- MHT-CET: ${mhtCetPercentile}%
+- Category: ${casteCategory}
+
+Our team will contact you within 12 hours regarding payment and next steps.
+
+Contact: +91 95296 79073
+Email: support@praveshmitra.in
+
+Regards,
+Pravesh Mitra Team
+      `,
+      html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;font-family:Arial,sans-serif;background-color:#ffffff;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;">
+    <tr>
+      <td style="padding:20px;">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;max-width:600px;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="padding:30px 20px;background-color:#2563eb;text-align:center;">
+              <h1 style="margin:0;color:#ffffff;font-size:24px;">Pravesh Mitra</h1>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:30px 20px;background-color:#ffffff;">
+              
+              <p style="margin:0 0 20px;font-size:16px;color:#000000;">Hello ${fullName},</p>
+              
+              <p style="margin:0 0 20px;font-size:15px;color:#333333;">
+                Your registration for <strong>${selectedPlan} Plan</strong> has been confirmed.
+              </p>
+
+              <!-- Details Table -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:20px 0;background-color:#f5f5f5;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Registration Details</p>
+                    <table width="100%" cellpadding="5" cellspacing="0" border="0">
+                      <tr>
+                        <td style="color:#666666;">Plan:</td>
+                        <td style="color:#000000;text-align:right;"><strong>${selectedPlan}</strong></td>
+                      </tr>
+                      <tr>
+                        <td style="color:#666666;">Price:</td>
+                        <td style="color:#000000;text-align:right;"><strong>Rs. ${planPrice}</strong></td>
+                      </tr>
+                      <tr>
+                        <td style="color:#666666;">Mobile:</td>
+                        <td style="color:#000000;text-align:right;">${mobile}</td>
+                      </tr>
+                      <tr>
+                        <td style="color:#666666;">MHT-CET:</td>
+                        <td style="color:#000000;text-align:right;">${mhtCetPercentile}%</td>
+                      </tr>
+                      ${jeeMainPercentile ? `
+                      <tr>
+                        <td style="color:#666666;">JEE Main:</td>
+                        <td style="color:#000000;text-align:right;">${jeeMainPercentile}%</td>
+                      </tr>` : ''}
+                      <tr>
+                        <td style="color:#666666;">Category:</td>
+                        <td style="color:#000000;text-align:right;"><strong>${casteCategory}</strong></td>
+                      </tr>
+                      ${homeUniversity ? `
+                      <tr>
+                        <td style="color:#666666;">University:</td>
+                        <td style="color:#000000;text-align:right;">${homeUniversity}</td>
+                      </tr>` : ''}
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Preferences -->
+              ${preferredBranches.length > 0 ? `
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:15px 0;background-color:#f9f9f9;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 8px;font-weight:bold;color:#000000;">Selected Branches</p>
+                    <p style="margin:0;font-size:14px;color:#333333;">${preferredBranches.join(', ')}</p>
+                  </td>
+                </tr>
+              </table>` : ''}
+
+              ${preferredCities.length > 0 ? `
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:15px 0;background-color:#f9f9f9;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 8px;font-weight:bold;color:#000000;">Preferred Cities</p>
+                    <p style="margin:0;font-size:14px;color:#333333;">${preferredCities.join(', ')}</p>
+                  </td>
+                </tr>
+              </table>` : ''}
+
+              <!-- Next Steps -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:25px 0;border:2px solid #fbbf24;background-color:#fffbeb;">
+                <tr>
+                  <td style="padding:20px;">
+                    <p style="margin:0 0 15px;font-size:16px;font-weight:bold;color:#000000;">What Happens Next</p>
+                    <table width="100%" cellpadding="5" cellspacing="0" border="0">
+                      <tr>
+                        <td style="padding:8px 0;">
+                          <p style="margin:0;font-size:14px;color:#333333;">
+                            <strong>1.</strong> We review your information
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;">
+                          <p style="margin:0;font-size:14px;color:#333333;">
+                            <strong>2.</strong> Our team will contact you within 12 hours
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;">
+                          <p style="margin:0;font-size:14px;color:#333333;">
+                            <strong>3.</strong> Discuss payment options and begin counselling
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Contact -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:20px 0;background-color:#f5f5f5;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Need Help?</p>
+                    <p style="margin:0;font-size:14px;color:#333333;">
+                      Phone: +91 95296 79073<br>
+                      Email: support@praveshmitra.in<br>
+                      WhatsApp: +91 95296 79073
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:20px 0 0;font-size:14px;color:#333333;">
+                Regards,<br>
+                <strong>Pravesh Mitra Team</strong>
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px;background-color:#f5f5f5;text-align:center;">
+              <p style="margin:0;font-size:12px;color:#666666;">
+                Pravesh Mitra - MHT-CET Counselling<br>
+                Chhatrapati Sambhaji Nagar, Maharashtra
+              </p>
+              <p style="margin:10px 0 0;font-size:11px;color:#999999;">
+                This email was sent to ${toEmail}
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`✅ Registration success email sent to ${toEmail}`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Registration email send error:', error.message);
+    return { success: false, error: error.message };
+  }
+};
+
+module.exports = { sendQuickLeadThankYou, sendRegistrationSuccessEmail };
