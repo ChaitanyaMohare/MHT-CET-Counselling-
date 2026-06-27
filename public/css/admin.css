@@ -62,7 +62,9 @@
   background: #fff; border-radius: var(--radius); padding: 1.5rem;
   display: flex; align-items: center; gap: 1rem;
   box-shadow: var(--shadow); border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
+.admin-stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
 .asc-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
 .asc-num { font-size: 1.75rem; font-weight: 900; color: var(--navy); line-height: 1; }
 .asc-label { font-size: 0.78rem; color: var(--muted); margin-top: 3px; font-weight: 500; }

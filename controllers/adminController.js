@@ -187,3 +187,32 @@ exports.postCounsellingForm = async (req, res) => {
     res.redirect('/admin');
   }
 };
+
+// ── GET /admin/quick-leads — QuickLeads table ───────────────
+exports.getQuickLeads = async (req, res) => {
+  try {
+    const search = req.query.search || '';
+    
+    let query = {};
+    if (search) {
+      query.$or = [
+        { fullName: new RegExp(search, 'i') },
+        { mobile: new RegExp(search, 'i') },
+        { email: new RegExp(search, 'i') }
+      ];
+    }
+
+    const leads = await QuickLead.find(query).sort({ createdAt: -1 });
+    const totalCount = await QuickLead.countDocuments();
+
+    res.render('admin/quick-leads', {
+      title: 'Quick Leads — Admin',
+      leads,
+      totalCount,
+      search
+    });
+  } catch (err) {
+    console.error(err);
+    res.render('error', { title: 'Error', error: err.message });
+  }
+};

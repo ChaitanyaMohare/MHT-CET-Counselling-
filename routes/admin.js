@@ -4,7 +4,8 @@ const {
   requireAdmin,
   getLogin, postLogin, logout,
   getDashboard,
-  getStudentDetail, postCounsellingForm
+  getStudentDetail, postCounsellingForm,
+  getQuickLeads
 } = require('../controllers/adminController');
 
 router.get('/admin/login', getLogin);
@@ -14,5 +15,6 @@ router.get('/admin/logout', logout);
 router.get('/admin', requireAdmin, getDashboard);
 router.get('/admin/student/:id', requireAdmin, getStudentDetail);
 router.post('/admin/student/:id/form', requireAdmin, postCounsellingForm);
+router.get('/admin/quick-leads', requireAdmin, getQuickLeads);
 
 module.exports = router;

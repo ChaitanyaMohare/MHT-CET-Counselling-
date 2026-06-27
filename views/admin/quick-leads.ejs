@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
+</head>
+<body class="admin-body">
+
+<%- include('../admin/partials/sidebar') %>
+
+<div class="admin-main">
+  <%- include('../admin/partials/topbar', { pageTitle: 'Quick Leads' }) %>
+
+  <div class="admin-content">
+
+    <!-- Header with stats -->
+    <div class="admin-card" style="margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+        <div>
+          <h2 style="margin:0;color:var(--navy);font-size:1.5rem;">⚡ Quick Leads</h2>
+          <p style="margin:0.5rem 0 0;color:var(--muted);font-size:0.88rem;">
+            Students who filled the quick lead form on the homepage
+          </p>
+        </div>
+        <div style="background:linear-gradient(135deg,#ff6b35,#f7931e);color:#fff;padding:1rem 1.5rem;border-radius:12px;text-align:center;">
+          <div style="font-size:2rem;font-weight:800;"><%= totalCount %></div>
+          <div style="font-size:0.8rem;opacity:0.9;">Total Leads</div>
+        </div>
+      </div>
+      
+      <!-- Search bar -->
+      <form method="GET" action="/admin/quick-leads" style="display:flex;gap:1rem;align-items:center;">
+        <input 
+          type="text" 
+          name="search" 
+          value="<%= search %>" 
+          placeholder="Search by name, mobile, or email…" 
+          class="admin-search-input"
+          style="flex:1;" 
+        />
+        <button type="submit" class="btn2 btn2-primary" style="padding:10px 24px;">
+          🔍 Search
+        </button>
+        <% if (search) { %>
+          <a href="/admin/quick-leads" class="btn2" style="padding:10px 20px;background:#6b7280;color:#fff;">
+            Clear
+          </a>
+        <% } %>
+      </form>
+    </div>
+
+    <!-- Quick Leads Table -->
+    <div class="admin-card">
+      <% if (leads.length === 0) { %>
+        <div style="text-align:center;padding:4rem;color:var(--muted);">
+          <div style="font-size:4rem;margin-bottom:1rem;">📭</div>
+          <h3 style="margin:0 0 0.5rem;color:var(--navy);">No quick leads found</h3>
+          <p style="margin:0;">
+            <% if (search) { %>
+              Try a different search term or <a href="/admin/quick-leads" style="color:var(--primary);">view all leads</a>
+            <% } else { %>
+              Quick leads will appear here when students fill the hero form
+            <% } %>
+          </p>
+        </div>
+      <% } else { %>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Student Name</th>
+              <th>Contact Info</th>
+              <th>MHT-CET Score</th>
+              <th>JEE Score</th>
+              <th>Preferred Branches</th>
+              <th>Preferred Cities</th>
+              <th>Submitted On</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% leads.forEach(function(lead, i) { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td>
+                <div class="student-name-cell">
+                  <div class="student-avatar"><%= lead.fullName.charAt(0).toUpperCase() %></div>
+                  <div>
+                    <div style="font-weight:600;color:var(--navy);"><%= lead.fullName %></div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div style="display:flex;flex-direction:column;gap:0.3rem;">
+                  <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <span style="font-size:0.85rem;">📱 <%= lead.mobile %></span>
+                    <a href="tel:<%= lead.mobile %>" class="cbtn cbtn-call" title="Call" style="padding:2px 6px;font-size:0.75rem;">📞</a>
+                    <a href="https://wa.me/91<%= lead.mobile %>?text=Hi%20<%= encodeURIComponent(lead.fullName) %>%2C%20this%20is%20NextStep%20counselling%20team." target="_blank" class="cbtn cbtn-wa" title="WhatsApp" style="padding:2px 6px;font-size:0.75rem;">💬</a>
+                  </div>
+                  <div style="font-size:0.8rem;color:var(--muted);">
+                    📧 <%= lead.email %>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <% if (lead.mhtCetScore) { %>
+                  <span class="badge badge-blue" style="font-size:0.85rem;"><%= lead.mhtCetScore %>%ile</span>
+                <% } else { %>
+                  <span style="color:var(--muted);font-size:0.8rem;">Not provided</span>
+                <% } %>
+              </td>
+              <td>
+                <% if (lead.jeeScore) { %>
+                  <span class="badge badge-purple" style="font-size:0.85rem;"><%= lead.jeeScore %>%ile</span>
+                <% } else { %>
+                  <span style="color:var(--muted);font-size:0.8rem;">—</span>
+                <% } %>
+              </td>
+              <td>
+                <% if (lead.branches && lead.branches.length > 0) { %>
+                  <div style="display:flex;flex-wrap:wrap;gap:0.3rem;max-width:200px;">
+                    <% lead.branches.forEach(function(branch) { %>
+                      <span class="badge badge-orange" style="font-size:0.75rem;padding:3px 8px;"><%= branch %></span>
+                    <% }); %>
+                  </div>
+                <% } else { %>
+                  <span style="color:var(--muted);font-size:0.8rem;">None selected</span>
+                <% } %>
+              </td>
+              <td>
+                <% if (lead.cities && lead.cities.length > 0) { %>
+                  <div style="display:flex;flex-wrap:wrap;gap:0.3rem;max-width:200px;">
+                    <% lead.cities.forEach(function(city) { %>
+                      <span class="badge badge-green" style="font-size:0.75rem;padding:3px 8px;"><%= city %></span>
+                    <% }); %>
+                  </div>
+                <% } else { %>
+                  <span style="color:var(--muted);font-size:0.8rem;">None selected</span>
+                <% } %>
+              </td>
+              <td style="font-size:0.8rem;color:var(--muted);">
+                <%= new Date(lead.createdAt).toLocaleDateString('en-IN', {
+                  day:'2-digit',
+                  month:'short',
+                  year:'numeric',
+                  hour:'2-digit',
+                  minute:'2-digit'
+                }) %>
+              </td>
+              <td>
+                <div style="display:flex;gap:0.5rem;">
+                  <a href="mailto:<%= lead.email %>" class="btn2 btn2-primary" style="padding:6px 12px;font-size:0.78rem;">
+                    📧 Email
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+
+  </div><!-- /admin-content -->
+</div><!-- /admin-main -->
+
+</body>
+</html>
