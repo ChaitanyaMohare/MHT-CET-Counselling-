@@ -1000,8 +1000,17 @@ body {
   .cta-inner { flex-direction: column; text-align: center; }
   .cta-left { flex-direction: column; text-align: center; }
   .cta-right { justify-content: center; flex-direction: column; align-items: center; }
-  .packages-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .packages-grid { 
+    display: flex; 
+    flex-direction: column; 
+    max-width: 420px; 
+    margin: 0 auto; 
+  }
   .plan-card.featured { transform: scale(1); }
+  /* Reorder plans on mobile: Premium first, then Standard, then Basic */
+  .plan-card:nth-child(1) { order: 3; } /* Basic ₹499 → Last */
+  .plan-card:nth-child(2) { order: 2; } /* Standard ₹999 → Middle */
+  .plan-card:nth-child(3) { order: 1; } /* Premium ₹1499 → First */
   .contact-grid { grid-template-columns: 1fr; }
   .summary-grid { grid-template-columns: 1fr; }
   .footer2-grid { grid-template-columns: 1fr 1fr; }
