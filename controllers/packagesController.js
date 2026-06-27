@@ -32,7 +32,7 @@ const plans = [
     ],
     tagline: 'Best for Students confused about choices',
     featured: true,
-    badge: 'Valid upto 1st CAP Round'
+    badge: 'Valid upto only 1st CAP round'
   },
   {
     id: 'Premium',
