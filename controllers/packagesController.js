@@ -14,8 +14,7 @@ const plans = [
     ],
     tagline: 'Best for Students exploring options',
     featured: false,
-    badge: null,
-    cashfreeLink: 'https://payments.cashfree.com/forms/pravesh-mitra-basic-plan'
+    badge: null
   },
   {
     id: 'Standard',
@@ -33,13 +32,12 @@ const plans = [
     ],
     tagline: 'Best for Students confused about choices',
     featured: true,
-    badge: 'Most Popular',
-    cashfreeLink: 'https://payments.cashfree.com/forms/pravesh-mitra-standard-plan'
+    badge: 'Valid upto only 1st CAP round'
   },
   {
     id: 'Premium',
     name: 'Premium',
-    price: 1999,
+    price: 1499,
     subtitle: 'Complete CAP Support',
     features: [
       'Everything in Standard Plan',
@@ -54,8 +52,7 @@ const plans = [
     ],
     tagline: 'Best for Complete admission support',
     featured: false,
-    badge: 'Best Value',
-    cashfreeLink: 'https://payments.cashfree.com/forms/pravesh-mitra-premium-plan'
+    badge: 'Most Popular'
   }
 ];
 

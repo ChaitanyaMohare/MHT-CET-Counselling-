@@ -41,6 +41,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/packages'));
+app.use('/', require('./routes/registration'));
 app.use('/', require('./routes/basicInfo'));
 app.use('/', require('./routes/payment'));
 app.use('/', require('./routes/mainForm'));
@@ -57,8 +58,18 @@ app.use((req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).render('error', { title: 'Server Error', error: err.message });
+  console.error('❌ Global error handler caught:', err);
+  console.error('Error stack:', err.stack);
+  
+  // Don't expose error details in production
+  const errorMessage = process.env.NODE_ENV === 'production' 
+    ? 'Something went wrong. Please try again.' 
+    : err.message;
+  
+  res.status(err.status || 500).render('error', { 
+    title: 'Server Error', 
+    error: errorMessage 
+  });
 });
 
 const PORT = process.env.PORT || 3000;

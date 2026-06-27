@@ -1,0 +1,310 @@
+<%- include('partials/head') %>
+<% const activePage = 'packages'; %>
+<%- include('partials/navbar') %>
+
+<div class="page-header">
+  <h1>Registration Form</h1>
+  <p>Complete your registration for <%= plan %> Plan</p>
+</div>
+
+<div class="contact-page-new" style="max-width:700px;margin:0 auto;">
+  <div class="contact-option-card">
+    
+    <!-- Plan Information -->
+    <div style="background: linear-gradient(135deg, #2563eb 0%, #3730a3 100%);color:#fff;padding:20px;border-radius:8px;margin-bottom:25px;text-align:center;">
+      <h2 style="margin:0 0 8px;font-size:24px;color:#fff;"><%= plan %> Plan</h2>
+      <p style="margin:0;font-size:32px;font-weight:bold;">₹<%= planPrice.toLocaleString('en-IN') %></p>
+      <p style="margin:8px 0 0;font-size:14px;opacity:0.9;">Selected counselling package</p>
+    </div>
+
+    <!-- Error Messages -->
+    <% if (errors && errors.length > 0) { %>
+      <div class="alert alert-error" style="margin-bottom:20px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="Error" style="width:18px;height:18px;vertical-align:middle;margin-right:4px;" />
+        <ul style="margin:8px 0;padding-left:20px;">
+          <% errors.forEach(e => { %>
+            <li><%= e %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+
+    <!-- Registration Form -->
+    <form action="/register" method="POST" class="callback-form" novalidate>
+      
+      <!-- Hidden Fields -->
+      <input type="hidden" name="selectedPlan" value="<%= plan %>" />
+      <input type="hidden" name="planPrice" value="<%= planPrice %>" />
+
+      <h3 style="color:#1f2937;margin:0 0 20px;font-size:18px;border-bottom:2px solid #e5e7eb;padding-bottom:8px;">Personal Information</h3>
+
+      <!-- Full Name -->
+      <div class="form-group-new">
+        <label for="fullName">
+          <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Name" class="input-icon" />
+          Full Name <span style="color:red;">*</span>
+        </label>
+        <input 
+          type="text" 
+          id="fullName"
+          name="fullName" 
+          value="<%= formData.fullName || '' %>" 
+          placeholder="Enter your full name" 
+          required 
+          class="input-field"
+        />
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="form-group-new">
+        <label for="mobile">
+          <img src="https://cdn-icons-png.flaticon.com/512/3059/3059502.png" alt="Mobile" class="input-icon" />
+          Mobile Number <span style="color:red;">*</span>
+        </label>
+        <input 
+          type="tel" 
+          id="mobile"
+          name="mobile" 
+          value="<%= formData.mobile || '' %>" 
+          placeholder="10-digit mobile number" 
+          pattern="[6-9][0-9]{9}"
+          maxlength="10" 
+          required 
+          class="input-field"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="form-group-new">
+        <label for="email">
+          <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email" class="input-icon" />
+          Email Address <span style="color:red;">*</span>
+        </label>
+        <input 
+          type="email" 
+          id="email"
+          name="email" 
+          value="<%= formData.email || '' %>" 
+          placeholder="your.email@example.com" 
+          required 
+          class="input-field"
+        />
+      </div>
+
+      <h3 style="color:#1f2937;margin:30px 0 20px;font-size:18px;border-bottom:2px solid #e5e7eb;padding-bottom:8px;">Academic Information</h3>
+
+      <!-- MHT-CET Percentile -->
+      <div class="form-row-new">
+        <div class="form-group-new">
+          <label for="mhtCetPercentile">
+            MHT-CET Percentile <span style="color:red;">*</span>
+          </label>
+          <input 
+            type="number" 
+            id="mhtCetPercentile"
+            name="mhtCetPercentile" 
+            value="<%= formData.mhtCetPercentile || '' %>" 
+            placeholder="0-100" 
+            min="0"
+            max="100"
+            step="0.01"
+            required 
+            class="input-field"
+          />
+        </div>
+
+        <!-- JEE Main Percentile (Optional) -->
+        <div class="form-group-new">
+          <label for="jeeMainPercentile">
+            JEE Main Percentile (Optional)
+          </label>
+          <input 
+            type="number" 
+            id="jeeMainPercentile"
+            name="jeeMainPercentile" 
+            value="<%= formData.jeeMainPercentile || '' %>" 
+            placeholder="0-100" 
+            min="0"
+            max="100"
+            step="0.01"
+            class="input-field"
+          />
+        </div>
+      </div>
+
+      <!-- Caste Category -->
+      <div class="form-group-new">
+        <label for="casteCategory">
+          Caste Category <span style="color:red;">*</span>
+        </label>
+        <select 
+          id="casteCategory"
+          name="casteCategory" 
+          required 
+          class="input-field"
+        >
+          <option value="">-- Select Your Category --</option>
+          <option value="OPEN" <%= formData.casteCategory === 'OPEN' ? 'selected' : '' %>>OPEN (General)</option>
+          <option value="EWS" <%= formData.casteCategory === 'EWS' ? 'selected' : '' %>>EWS (Economically Weaker Section)</option>
+          <option value="OBC" <%= formData.casteCategory === 'OBC' ? 'selected' : '' %>>OBC (Other Backward Class)</option>
+          <option value="SC" <%= formData.casteCategory === 'SC' ? 'selected' : '' %>>SC (Scheduled Caste)</option>
+          <option value="ST" <%= formData.casteCategory === 'ST' ? 'selected' : '' %>>ST (Scheduled Tribe)</option>
+          <option value="NT-B" <%= formData.casteCategory === 'NT-B' ? 'selected' : '' %>>NT-B (Nomadic Tribe B)</option>
+          <option value="NT-C" <%= formData.casteCategory === 'NT-C' ? 'selected' : '' %>>NT-C (Nomadic Tribe C)</option>
+          <option value="NT-D" <%= formData.casteCategory === 'NT-D' ? 'selected' : '' %>>NT-D (Nomadic Tribe D)</option>
+          <option value="VJ/DT" <%= formData.casteCategory === 'VJ/DT' ? 'selected' : '' %>>VJ/DT (Vimukta Jati/Denotified Tribes)</option>
+          <option value="SBC" <%= formData.casteCategory === 'SBC' ? 'selected' : '' %>>SBC (Special Backward Class)</option>
+          <option value="TFWS" <%= formData.casteCategory === 'TFWS' ? 'selected' : '' %>>TFWS (Tuition Fee Waiver Scheme)</option>
+        </select>
+      </div>
+
+      <!-- Home University -->
+      <div class="form-group-new">
+        <label for="homeUniversity">
+          <img src="https://cdn-icons-png.flaticon.com/512/3976/3976625.png" alt="University" class="input-icon" />
+          Home University
+        </label>
+        <select 
+          id="homeUniversity"
+          name="homeUniversity" 
+          class="input-field"
+        >
+          <option value="">-- Select Your Home University (Optional) --</option>
+          <% universities.forEach(uni => { %>
+            <option value="<%= uni %>" <%= formData.homeUniversity === uni ? 'selected' : '' %>><%= uni %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <h3 style="color:#1f2937;margin:30px 0 20px;font-size:18px;border-bottom:2px solid #e5e7eb;padding-bottom:8px;">Preferences</h3>
+
+      <!-- Engineering Branches -->
+      <div class="form-group-new">
+        <label for="branches">
+          Engineering Branches <span style="color:red;">*</span>
+        </label>
+        <small class="input-hint" style="display:block;margin-bottom:8px;">Select all branches you're interested in</small>
+        <div class="jf-multiselect-wrapper">
+          <button type="button" class="jf-multiselect-trigger" onclick="toggleMultiSelect('branches')">
+            <span class="jf-multiselect-text" id="branchesText">Select Branches</span>
+            <span class="jf-multiselect-arrow">▾</span>
+          </button>
+          <div class="jf-multiselect-dropdown" id="branchesDropdown">
+            <% branches.forEach(branch => { %>
+              <label class="jf-checkbox-label">
+                <input 
+                  type="checkbox" 
+                  name="preferredBranches[]" 
+                  value="<%= branch %>" 
+                  onchange="updateMultiSelectText('branches')"
+                />
+                <span><%= branch %></span>
+              </label>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cities -->
+      <div class="form-group-new">
+        <label for="cities">
+          Preferred Cities <span style="color:red;">*</span>
+        </label>
+        <small class="input-hint" style="display:block;margin-bottom:8px;">Select all cities where you'd like to study</small>
+        <div class="jf-multiselect-wrapper">
+          <button type="button" class="jf-multiselect-trigger" onclick="toggleMultiSelect('cities')">
+            <span class="jf-multiselect-text" id="citiesText">Select Cities</span>
+            <span class="jf-multiselect-arrow">▾</span>
+          </button>
+          <div class="jf-multiselect-dropdown" id="citiesDropdown">
+            <% cities.forEach(city => { %>
+              <label class="jf-checkbox-label">
+                <input 
+                  type="checkbox" 
+                  name="preferredCities[]" 
+                  value="<%= city %>" 
+                  onchange="updateMultiSelectText('cities')"
+                />
+                <span><%= city %></span>
+              </label>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn callback-btn" style="margin-top:30px;">
+        Complete Registration →
+      </button>
+
+      <div class="form-note" style="margin-top:15px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/159/159469.png" alt="Secure" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" />
+        Your data is secure and will only be used for counselling purposes
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+// Multi-select dropdown functionality
+function toggleMultiSelect(id) {
+  const dropdown = document.getElementById(id + 'Dropdown');
+  const allDropdowns = document.querySelectorAll('.jf-multiselect-dropdown');
+  
+  // Close all other dropdowns
+  allDropdowns.forEach(d => {
+    if (d !== dropdown) {
+      d.classList.remove('open');
+    }
+  });
+  
+  // Toggle current dropdown
+  dropdown.classList.toggle('open');
+}
+
+function updateMultiSelectText(id) {
+  const checkboxes = document.querySelectorAll(`#${id}Dropdown input[type="checkbox"]:checked`);
+  const textEl = document.getElementById(id + 'Text');
+  
+  if (checkboxes.length === 0) {
+    textEl.textContent = id === 'branches' ? 'Select Branches' : 'Select Cities';
+    textEl.classList.remove('selected');
+  } else if (checkboxes.length === 1) {
+    textEl.textContent = checkboxes[0].value;
+    textEl.classList.add('selected');
+  } else {
+    textEl.textContent = `${checkboxes.length} selected`;
+    textEl.classList.add('selected');
+  }
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.jf-multiselect-wrapper')) {
+    document.querySelectorAll('.jf-multiselect-dropdown').forEach(d => {
+      d.classList.remove('open');
+    });
+  }
+});
+
+// Form validation on submit
+document.querySelector('form')?.addEventListener('submit', function(e) {
+  const branchesChecked = document.querySelectorAll('input[name="preferredBranches[]"]:checked').length;
+  const citiesChecked = document.querySelectorAll('input[name="preferredCities[]"]:checked').length;
+  
+  if (branchesChecked === 0) {
+    e.preventDefault();
+    alert('Please select at least one engineering branch');
+    return false;
+  }
+  
+  if (citiesChecked === 0) {
+    e.preventDefault();
+    alert('Please select at least one city');
+    return false;
+  }
+});
+</script>
+
+<%- include('partials/footer') %>
