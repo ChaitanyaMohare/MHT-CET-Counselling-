@@ -153,10 +153,16 @@
                 }) %>
               </td>
               <td>
-                <div style="display:flex;gap:0.5rem;">
+                <div style="display:flex;gap:0.5rem;align-items:center;">
                   <a href="mailto:<%= lead.email %>" class="btn2 btn2-primary" style="padding:6px 12px;font-size:0.78rem;">
                     📧 Email
                   </a>
+                  <form method="POST" action="/admin/quick-leads/<%= lead._id %>/delete<%= search ? '?search=' + encodeURIComponent(search) : '' %>"
+                    onsubmit="return confirm('Delete <%= lead.fullName %>? This cannot be undone.')">
+                    <button type="submit" class="btn2" style="padding:6px 12px;font-size:0.78rem;background:#fee2e2;color:#dc2626;border:1.5px solid #fecaca;cursor:pointer;">
+                      🗑️ Delete
+                    </button>
+                  </form>
                 </div>
               </td>
             </tr>

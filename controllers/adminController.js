@@ -216,3 +216,18 @@ exports.getQuickLeads = async (req, res) => {
     res.render('error', { title: 'Error', error: err.message });
   }
 };
+
+// ── POST /admin/quick-leads/:id/delete — Delete a QuickLead ─
+exports.deleteQuickLead = async (req, res) => {
+  try {
+    await QuickLead.findByIdAndDelete(req.params.id);
+    console.log(`🗑️ QuickLead deleted: ${req.params.id}`);
+  } catch (err) {
+    console.error('❌ Error deleting QuickLead:', err.message);
+  }
+  // Preserve search query if present
+  const back = req.query.search
+    ? `/admin/quick-leads?search=${encodeURIComponent(req.query.search)}`
+    : '/admin/quick-leads';
+  res.redirect(back);
+};

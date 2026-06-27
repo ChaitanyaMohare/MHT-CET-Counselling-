@@ -31,35 +31,47 @@ exports.postQuickLead = async (req, res) => {
   }
 
   try {
-    // Save to database
-    const quickLead = await QuickLead.create({
-      fullName:    name.trim(),
-      mobile:      contact.trim(),
-      email:       email.trim().toLowerCase(),
-      mhtCetScore: mhtCetScore ? mhtCetScore.trim() : '',
-      jeeScore:    jeeScore    ? jeeScore.trim()    : '',
-      branches,
-      cities
-    });
-    console.log(`✅ QuickLead saved: ${name} (ID: ${quickLead._id})`);
-
-    // Send thank-you email with package information
-    // Use async/await to handle success/failure properly
-    const emailResult = await sendQuickLeadThankYou(
-      email.trim().toLowerCase(), 
-      name.trim(), 
+    // Upsert — update existing entry if same mobile submits again
+    const quickLead = await QuickLead.findOneAndUpdate(
+      { mobile: contact.trim() },                      // match by mobile
       {
-        mhtCetScore: mhtCetScore || '',
-        jeeScore: jeeScore || '',
+        fullName:    name.trim(),
+        mobile:      contact.trim(),
+        email:       email.trim().toLowerCase(),
+        mhtCetScore: mhtCetScore ? mhtCetScore.trim() : '',
+        jeeScore:    jeeScore    ? jeeScore.trim()    : '',
         branches,
-        cities
-      }
+        cities,
+        updatedAt:   new Date()
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
     );
 
-    if (emailResult.success) {
-      console.log(`✅ Email sent successfully to ${email}`);
+    const isNew = !quickLead.createdAt || 
+      (new Date() - new Date(quickLead.createdAt)) < 5000;
+
+    console.log(`✅ QuickLead ${isNew ? 'saved' : 'updated'}: ${name} (ID: ${quickLead._id})`);
+
+    // Send thank-you email only on first submission (not on updates)
+    if (isNew) {
+      const emailResult = await sendQuickLeadThankYou(
+        email.trim().toLowerCase(),
+        name.trim(),
+        {
+          mhtCetScore: mhtCetScore || '',
+          jeeScore: jeeScore || '',
+          branches,
+          cities
+        }
+      );
+
+      if (emailResult.success) {
+        console.log(`✅ Email sent successfully to ${email}`);
+      } else {
+        console.error(`❌ Email failed for ${email}:`, emailResult.error);
+      }
     } else {
-      console.error(`❌ Email failed for ${email}:`, emailResult.error);
+      console.log(`ℹ️ Duplicate submission from ${contact} — updated existing record, email skipped`);
     }
 
   } catch (err) {
