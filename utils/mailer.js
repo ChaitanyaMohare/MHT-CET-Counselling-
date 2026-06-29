@@ -596,12 +596,11 @@ View: ${documentLink}
         name: 'Pravesh Mitra Support',
         address: process.env.GMAIL_USER
       },
-      subject: 'Your College Suggestions - Pravesh Mitra',
+      subject: 'Your College Counselling Request Received',
       headers: {
         'X-Priority': '3',
         'Importance': 'normal',
-        'X-Entity-Ref-ID': `SUGGEST-${Date.now()}`,
-        'List-Unsubscribe': `<mailto:${process.env.GMAIL_USER}?subject=unsubscribe>`
+        'X-Entity-Ref-ID': `REQ-${Date.now()}`
       },
       text: `
 Hello ${fullName},
@@ -634,17 +633,17 @@ Pravesh Mitra Team
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
-<body style="margin:0;padding:0;font-family:Arial,sans-serif;background-color:#ffffff;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;">
+<body style="margin:0;padding:0;font-family:Arial,sans-serif;background-color:#f8f9fa;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f8f9fa;">
     <tr>
       <td style="padding:20px;">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;max-width:600px;">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;max-width:600px;background-color:#ffffff;">
           
           <!-- Header -->
           <tr>
-            <td style="padding:30px 20px;background-color:#2563eb;text-align:center;">
-              <h1 style="margin:0;color:#ffffff;font-size:24px;">Pravesh Mitra</h1>
-              <p style="margin:5px 0 0;color:rgba(255,255,255,0.9);font-size:13px;">MHT-CET Counselling Support</p>
+            <td style="padding:25px 20px;background-color:#ffffff;border-bottom:3px solid #2563eb;">
+              <h1 style="margin:0;color:#1f2937;font-size:22px;">Pravesh Mitra</h1>
+              <p style="margin:3px 0 0;color:#6b7280;font-size:13px;">Counselling Request Received</p>
             </td>
           </tr>
 
@@ -652,36 +651,36 @@ Pravesh Mitra Team
           <tr>
             <td style="padding:30px 20px;background-color:#ffffff;">
               
-              <p style="margin:0 0 20px;font-size:16px;color:#000000;">Hello ${fullName},</p>
+              <p style="margin:0 0 15px;font-size:15px;color:#1f2937;">Hello ${fullName},</p>
               
-              <p style="margin:0 0 20px;font-size:15px;color:#333333;">
-                Thank you for your interest in Pravesh Mitra college counselling services. We have received your information.
+              <p style="margin:0 0 20px;font-size:14px;color:#4b5563;line-height:1.6;">
+                We have received your counselling request. Our team will review your information and contact you within 24 hours.
               </p>
 
               ${documentHTML}
 
-              <!-- Submission Details -->
-              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:20px 0;background-color:#f5f5f5;">
+              <!-- Submission Summary -->
+              <table width="100%" cellpadding="12" cellspacing="0" border="0" style="margin:20px 0;background-color:#f9fafb;border:1px solid #e5e7eb;">
                 <tr>
-                  <td style="padding:15px;">
-                    <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Your Submission</p>
-                    <table width="100%" cellpadding="5" cellspacing="0" border="0">
+                  <td>
+                    <p style="margin:0 0 10px;font-size:13px;font-weight:600;color:#374151;">Request Summary</p>
+                    <table width="100%" cellpadding="4" cellspacing="0" border="0">
                       <tr>
-                        <td style="color:#666666;">MHT-CET Score:</td>
-                        <td style="color:#000000;text-align:right;"><strong>${mhtCetScore}</strong></td>
+                        <td style="color:#6b7280;font-size:13px;padding:4px 0;">MHT-CET Score</td>
+                        <td style="color:#1f2937;font-size:13px;text-align:right;padding:4px 0;">${mhtCetScore}</td>
                       </tr>
                       ${jeeScore ? `
                       <tr>
-                        <td style="color:#666666;">JEE Score:</td>
-                        <td style="color:#000000;text-align:right;"><strong>${jeeScore}</strong></td>
+                        <td style="color:#6b7280;font-size:13px;padding:4px 0;">JEE Score</td>
+                        <td style="color:#1f2937;font-size:13px;text-align:right;padding:4px 0;">${jeeScore}</td>
                       </tr>` : ''}
                       <tr>
-                        <td style="color:#666666;vertical-align:top;">Branches:</td>
-                        <td style="color:#000000;text-align:right;font-size:13px;">${branches.join(', ')}</td>
+                        <td style="color:#6b7280;font-size:13px;padding:4px 0;vertical-align:top;">Branches</td>
+                        <td style="color:#1f2937;font-size:12px;text-align:right;padding:4px 0;">${branches.join(', ')}</td>
                       </tr>
                       <tr>
-                        <td style="color:#666666;vertical-align:top;">Cities:</td>
-                        <td style="color:#000000;text-align:right;font-size:13px;">${cities.join(', ')}</td>
+                        <td style="color:#6b7280;font-size:13px;padding:4px 0;vertical-align:top;">Cities</td>
+                        <td style="color:#1f2937;font-size:12px;text-align:right;padding:4px 0;">${cities.join(', ')}</td>
                       </tr>
                     </table>
                   </td>
@@ -689,123 +688,80 @@ Pravesh Mitra Team
               </table>
 
               <!-- Next Steps -->
-              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:25px 0;border:2px solid #2563eb;background-color:#eff6ff;">
+              <table width="100%" cellpadding="12" cellspacing="0" border="0" style="margin:20px 0;background-color:#eff6ff;border-left:4px solid #2563eb;">
                 <tr>
-                  <td style="padding:20px;">
-                    <p style="margin:0 0 15px;font-size:16px;font-weight:bold;color:#000000;">What's Next?</p>
-                    <table width="100%" cellpadding="5" cellspacing="0" border="0">
-                      <tr>
-                        <td style="padding:8px 0;">
-                          <p style="margin:0;font-size:14px;color:#333333;">
-                            <strong>1.</strong> Choose a counselling plan that fits your needs
-                          </p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:8px 0;">
-                          <p style="margin:0;font-size:14px;color:#333333;">
-                            <strong>2.</strong> Complete registration and payment
-                          </p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:8px 0;">
-                          <p style="margin:0;font-size:14px;color:#333333;">
-                            <strong>3.</strong> Get personalized college suggestions and expert guidance
-                          </p>
-                        </td>
-                      </tr>
-                    </table>
+                  <td>
+                    <p style="margin:0 0 10px;font-size:14px;font-weight:600;color:#1e40af;">Next Steps</p>
+                    <p style="margin:5px 0;font-size:13px;color:#1f2937;">• Review our counselling plans below</p>
+                    <p style="margin:5px 0;font-size:13px;color:#1f2937;">• Select a plan that fits your requirements</p>
+                    <p style="margin:5px 0;font-size:13px;color:#1f2937;">• Our team will reach out within 24 hours</p>
                   </td>
                 </tr>
               </table>
 
-              <!-- Plans -->
-              <p style="margin:25px 0 15px;font-size:18px;font-weight:bold;color:#000000;text-align:center;">Our Counselling Plans</p>
+              <!-- Available Plans -->
+              <p style="margin:25px 0 12px;font-size:15px;font-weight:600;color:#1f2937;">Available Counselling Plans</p>
 
               <!-- Basic Plan -->
-              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:15px 0;background-color:#ffffff;border:1px solid #e5e7eb;">
+              <table width="100%" cellpadding="12" cellspacing="0" border="0" style="margin:10px 0;border:1px solid #d1d5db;">
                 <tr>
-                  <td style="padding:15px;">
-                    <p style="margin:0 0 5px;font-size:18px;font-weight:bold;color:#000000;">Basic Plan</p>
-                    <p style="margin:0 0 10px;font-size:13px;color:#666666;">College Discovery Package</p>
-                    <p style="margin:0 0 10px;font-size:24px;font-weight:bold;color:#2563eb;">₹499</p>
-                    <ul style="margin:0;padding-left:20px;">
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Personalized College List</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Dream / Target / Safe Colleges</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Branch Recommendations</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">PDF Report</li>
-                    </ul>
-                    <p style="margin:15px 0 0;text-align:center;">
-                      <a href="https://praveshmitra.online/register?plan=Basic" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:10px 20px;text-decoration:none;border-radius:4px;">Select Basic Plan</a>
-                    </p>
+                  <td>
+                    <p style="margin:0 0 3px;font-size:16px;font-weight:600;color:#1f2937;">Basic Plan — ₹499</p>
+                    <p style="margin:0 0 8px;font-size:12px;color:#6b7280;">College Discovery Package</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• Personalized college list</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• Dream/Target/Safe categories</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• Branch recommendations</p>
+                    <p style="margin:10px 0 0;"><a href="https://praveshmitra.online/register?plan=Basic" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:8px 16px;text-decoration:none;font-size:13px;">Select Plan</a></p>
                   </td>
                 </tr>
               </table>
 
               <!-- Standard Plan -->
-              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:15px 0;background-color:#eff6ff;border:2px solid #2563eb;">
+              <table width="100%" cellpadding="12" cellspacing="0" border="0" style="margin:10px 0;border:2px solid #2563eb;background-color:#eff6ff;">
                 <tr>
-                  <td style="padding:15px;">
-                    <p style="margin:0 0 5px;font-size:12px;font-weight:bold;color:#2563eb;">MOST POPULAR</p>
-                    <p style="margin:0 0 5px;font-size:18px;font-weight:bold;color:#000000;">Standard Plan</p>
-                    <p style="margin:0 0 10px;font-size:13px;color:#666666;">Admission Strategy Package</p>
-                    <p style="margin:0 0 10px;font-size:24px;font-weight:bold;color:#2563eb;">₹999</p>
-                    <ul style="margin:0;padding-left:20px;">
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Everything in Basic Plan</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">1-on-1 Counseling Call (30-45 mins)</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Branch Selection Guidance</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">WhatsApp Support for 7 Days</li>
-                    </ul>
-                    <p style="margin:15px 0 0;text-align:center;">
-                      <a href="https://praveshmitra.online/register?plan=Standard" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:10px 20px;text-decoration:none;border-radius:4px;">Select Standard Plan</a>
-                    </p>
+                  <td>
+                    <p style="margin:0 0 3px;font-size:11px;font-weight:600;color:#2563eb;">RECOMMENDED</p>
+                    <p style="margin:0 0 3px;font-size:16px;font-weight:600;color:#1f2937;">Standard Plan — ₹999</p>
+                    <p style="margin:0 0 8px;font-size:12px;color:#6b7280;">Admission Strategy Package</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• Everything in Basic</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• 1-on-1 counseling call</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• Branch selection guidance</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• 7 days WhatsApp support</p>
+                    <p style="margin:10px 0 0;"><a href="https://praveshmitra.online/register?plan=Standard" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:8px 16px;text-decoration:none;font-size:13px;">Select Plan</a></p>
                   </td>
                 </tr>
               </table>
 
               <!-- Premium Plan -->
-              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:15px 0;background-color:#ffffff;border:1px solid #e5e7eb;">
+              <table width="100%" cellpadding="12" cellspacing="0" border="0" style="margin:10px 0;border:1px solid #d1d5db;">
                 <tr>
-                  <td style="padding:15px;">
-                    <p style="margin:0 0 5px;font-size:18px;font-weight:bold;color:#000000;">Premium Plan</p>
-                    <p style="margin:0 0 10px;font-size:13px;color:#666666;">Complete CAP Support</p>
-                    <p style="margin:0 0 10px;font-size:24px;font-weight:bold;color:#2563eb;">₹1,499</p>
-                    <ul style="margin:0;padding-left:20px;">
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Everything in Standard Plan</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Support Throughout All CAP Rounds</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Round-wise Guidance</li>
-                      <li style="margin:5px 0;font-size:13px;color:#333333;">Priority WhatsApp Support</li>
-                    </ul>
-                    <p style="margin:15px 0 0;text-align:center;">
-                      <a href="https://praveshmitra.online/register?plan=Premium" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:10px 20px;text-decoration:none;border-radius:4px;">Select Premium Plan</a>
-                    </p>
+                  <td>
+                    <p style="margin:0 0 3px;font-size:16px;font-weight:600;color:#1f2937;">Premium Plan — ₹1,499</p>
+                    <p style="margin:0 0 8px;font-size:12px;color:#6b7280;">Complete CAP Support</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• Everything in Standard</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• Support through all CAP rounds</p>
+                    <p style="margin:3px 0;font-size:12px;color:#4b5563;">• Priority WhatsApp support</p>
+                    <p style="margin:10px 0 0;"><a href="https://praveshmitra.online/register?plan=Premium" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:8px 16px;text-decoration:none;font-size:13px;">Select Plan</a></p>
                   </td>
                 </tr>
               </table>
-
-              <!-- View All Plans Button -->
-              <p style="margin:25px 0 0;text-align:center;">
-                <a href="https://praveshmitra.online/packages" style="display:inline-block;background-color:#16a34a;color:#ffffff;padding:14px 32px;text-decoration:none;border-radius:4px;font-weight:bold;">View All Plans & Details</a>
-              </p>
 
               <!-- Contact -->
-              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:25px 0 0;background-color:#f5f5f5;">
+              <table width="100%" cellpadding="12" cellspacing="0" border="0" style="margin:25px 0 0;background-color:#f9fafb;border:1px solid #e5e7eb;">
                 <tr>
-                  <td style="padding:15px;">
-                    <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Need Help?</p>
-                    <p style="margin:0;font-size:14px;color:#333333;">
+                  <td>
+                    <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#374151;">Need assistance?</p>
+                    <p style="margin:0;font-size:13px;color:#6b7280;">
                       Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
-                      Email: <a href="mailto:brixontech@gmail.com" style="color:#2563eb;text-decoration:none;">brixontech@gmail.com</a><br>
-                      WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
+                      Email: <a href="mailto:brixontech@gmail.com" style="color:#2563eb;text-decoration:none;">brixontech@gmail.com</a>
                     </p>
                   </td>
                 </tr>
               </table>
 
-              <p style="margin:20px 0 0;font-size:14px;color:#333333;">
-                Regards,<br>
-                <strong>Pravesh Mitra Team</strong>
+              <p style="margin:20px 0 0;font-size:13px;color:#6b7280;">
+                Best regards,<br>
+                Pravesh Mitra Team
               </p>
 
             </td>
@@ -813,13 +769,10 @@ Pravesh Mitra Team
 
           <!-- Footer -->
           <tr>
-            <td style="padding:20px;background-color:#f5f5f5;text-align:center;">
-              <p style="margin:0;font-size:12px;color:#666666;">
-                Pravesh Mitra - MHT-CET Counselling<br>
-                Chhatrapati Sambhaji Nagar, Maharashtra
-              </p>
-              <p style="margin:10px 0 0;font-size:11px;color:#999999;">
-                © ${new Date().getFullYear()} Pravesh Mitra. All rights reserved.
+            <td style="padding:15px 20px;background-color:#f9fafb;border-top:1px solid #e5e7eb;">
+              <p style="margin:0;font-size:11px;color:#9ca3af;text-align:center;">
+                Pravesh Mitra | Chhatrapati Sambhaji Nagar, Maharashtra, India<br>
+                © ${new Date().getFullYear()} All rights reserved
               </p>
             </td>
           </tr>
