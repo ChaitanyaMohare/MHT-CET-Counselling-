@@ -895,11 +895,22 @@ body {
   border-color: var(--blue2);
 }
 
-.plan-card.featured .plan-select-btn { 
+  .plan-card.featured .plan-select-btn { 
   background: var(--blue2); 
   color: #fff; 
   border-color: var(--blue2); 
   box-shadow: 0 4px 16px rgba(26,86,219,0.3); 
+}
+
+/* ===== SUGGESTION FORM RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .suggestion-form-card {
+    padding: 2rem 1.5rem !important;
+  }
+  
+  .suggestion-form-card > form > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 .plan-card.featured .plan-select-btn:hover { 
