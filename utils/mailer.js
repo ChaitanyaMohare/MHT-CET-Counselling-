@@ -139,7 +139,6 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
       subject: 'Your College Counselling Information - Pravesh Mitra',
       headers: {
         'X-Priority': '3',
-        'X-Mailer': 'Nodemailer',
         'Importance': 'normal',
         'X-Entity-Ref-ID': `PMITRA-${Date.now()}`,
         'List-Unsubscribe': `<mailto:${process.env.GMAIL_USER}?subject=unsubscribe>`
@@ -265,7 +264,7 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
                     <p style="margin:0 0 10px;font-size:14px;font-weight:bold;color:#374151;">Need assistance?</p>
                     <p style="margin:0;font-size:14px;color:#6b7280;line-height:1.6;">
                       Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
-                      Email: <a href="mailto:support@praveshmitra.in" style="color:#2563eb;text-decoration:none;">support@praveshmitra.in</a><br>
+                      Email: <a href="mailto:brixontech@gmail.com" style="color:#2563eb;text-decoration:none;">brixontech@gmail.com</a><br>
                       WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
                     </p>
                   </td>
@@ -365,7 +364,7 @@ Registration Details:
 Our team will contact you within 12 hours regarding payment and next steps.
 
 Contact: +91 95296 79073
-Email: support@praveshmitra.in
+Email: brixontech@gmail.com
 
 Regards,
 Pravesh Mitra Team
@@ -501,7 +500,7 @@ Pravesh Mitra Team
                     <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Need Help?</p>
                     <p style="margin:0;font-size:14px;color:#333333;">
                       Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
-                      Email: <a href="mailto:support@praveshmitra.in" style="color:#2563eb;text-decoration:none;">support@praveshmitra.in</a><br>
+                      Email: <a href="mailto:brixontech@gmail.com" style="color:#2563eb;text-decoration:none;">brixontech@gmail.com</a><br>
                       WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
                     </p>
                   </td>
@@ -557,8 +556,34 @@ const sendSuggestionEmail = async (userData) => {
     jeeScore,
     branches = [],
     cities = [],
-    percentileRange
+    percentileRange,
+    documentLink = null,
+    documentName = null
   } = userData;
+
+  // Add document section if available
+  const documentSection = documentLink ? `
+
+Document Available:
+${documentName}
+View: ${documentLink}
+` : '';
+
+  const documentHTML = documentLink ? `
+              <!-- Document Section -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:25px 0;border:2px solid #16a34a;background-color:#f0fdf4;">
+                <tr>
+                  <td style="padding:20px;">
+                    <p style="margin:0 0 15px;font-size:16px;font-weight:bold;color:#166534;">📄 Your Requested Document</p>
+                    <p style="margin:0 0 15px;font-size:14px;color:#166534;">
+                      <strong>${documentName}</strong>
+                    </p>
+                    <p style="margin:0;text-align:center;">
+                      <a href="${documentLink}" target="_blank" style="display:inline-block;background-color:#16a34a;color:#ffffff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">📥 View Document</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>` : '';
 
   try {
     const mailOptions = {
@@ -588,7 +613,7 @@ Your Submission:
 ${jeeScore ? `- JEE Score: ${jeeScore}` : ''}
 - Branches: ${branches.join(', ')}
 - Cities: ${cities.join(', ')}
-
+${documentSection}
 Choose from our counselling plans:
 - Basic Plan (₹499): College Discovery Package
 - Standard Plan (₹999): Admission Strategy Package  
@@ -597,7 +622,7 @@ Choose from our counselling plans:
 Visit: https://praveshmitra.online/packages
 
 Contact: +91 95296 79073
-Email: support@praveshmitra.in
+Email: brixontech@gmail.com
 
 Regards,
 Pravesh Mitra Team
@@ -632,6 +657,8 @@ Pravesh Mitra Team
               <p style="margin:0 0 20px;font-size:15px;color:#333333;">
                 Thank you for your interest in Pravesh Mitra college counselling services. We have received your information.
               </p>
+
+              ${documentHTML}
 
               <!-- Submission Details -->
               <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:20px 0;background-color:#f5f5f5;">
@@ -769,7 +796,7 @@ Pravesh Mitra Team
                     <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Need Help?</p>
                     <p style="margin:0;font-size:14px;color:#333333;">
                       Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
-                      Email: <a href="mailto:support@praveshmitra.in" style="color:#2563eb;text-decoration:none;">support@praveshmitra.in</a><br>
+                      Email: <a href="mailto:brixontech@gmail.com" style="color:#2563eb;text-decoration:none;">brixontech@gmail.com</a><br>
                       WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
                     </p>
                   </td>

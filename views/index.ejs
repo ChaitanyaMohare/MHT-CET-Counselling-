@@ -62,10 +62,10 @@
           <!-- MHT-CET & JEE Score in one row -->
           <div class="jf-row">
             <div class="jf-group jf-half">
-              <input type="number" name="mhtCetScore" placeholder="MHT-CET Score" class="jf-input jf-compact" min="0" max="200" step="0.01" required aria-label="MHT-CET Score" />
+              <input type="number" name="mhtCetScore" placeholder="MHT-CET Score" class="jf-input jf-compact" min="0" max="100" step="0.01" required aria-label="MHT-CET Score" />
             </div>
             <div class="jf-group jf-half">
-              <input type="number" name="jeeScore" placeholder="JEE Score (Optional)" class="jf-input jf-compact" min="0" max="360" step="0.01" aria-label="JEE Score" />
+              <input type="number" name="jeeScore" placeholder="JEE Score (Optional)" class="jf-input jf-compact" min="0" max="100" step="0.01" aria-label="JEE Score" />
             </div>
           </div>
 
@@ -380,9 +380,9 @@
               id="suggestionMhtCet"
               class="input-field" 
               style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;"
-              placeholder="0-200" 
+              placeholder="0-100" 
               min="0" 
-              max="200" 
+              max="100" 
               step="0.01"
               required
             />
@@ -397,9 +397,9 @@
               id="suggestionJee"
               class="input-field" 
               style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;"
-              placeholder="0-360" 
+              placeholder="0-100" 
               min="0" 
-              max="360" 
+              max="100" 
               step="0.01"
             />
           </div>
@@ -784,7 +784,7 @@
            • +91 95296 79073
           </li>
           <li>
-            • support@praveshmitra.in
+            • brixontech@gmail.com
           </li>
           <li>
             • Chhatrapati Sambhaji Nagar, Maharashtra, India
@@ -968,7 +968,25 @@ document.getElementById('suggestionForm')?.addEventListener('submit', async func
     const result = await response.json();
     
     if (response.ok && result.success) {
-      // Show success message
+      // Update success message with document link if available
+      let successHTML = '<p style="margin:0;font-weight:600;">✓ Success! Check your email for college suggestions and counselling plans.</p>';
+      
+      if (result.documentLink && result.documentName) {
+        successHTML += `
+          <div style="margin-top:1rem;padding:1rem;background:#ffffff;border:2px solid #bbf7d0;border-radius:8px;">
+            <p style="margin:0 0 0.5rem;font-weight:600;color:#166534;">📄 Your Document is Ready:</p>
+            <a href="${result.documentLink}" target="_blank" rel="noopener noreferrer" 
+               style="display:inline-block;background:#166534;color:#ffffff;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;margin-top:0.5rem;">
+              📥 View ${result.documentName}
+            </a>
+            <p style="margin:0.5rem 0 0;font-size:0.85rem;color:#166534;">
+              <em>Document link is also sent to your email</em>
+            </p>
+          </div>
+        `;
+      }
+      
+      successMsg.innerHTML = successHTML;
       successMsg.style.display = 'block';
       successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       
@@ -977,10 +995,10 @@ document.getElementById('suggestionForm')?.addEventListener('submit', async func
       updateSuggestionMultiSelectText('suggestionBranches');
       updateSuggestionMultiSelectText('suggestionCities');
       
-      // Hide success after 8 seconds
+      // Hide success after 15 seconds (longer to allow viewing document link)
       setTimeout(() => {
         successMsg.style.display = 'none';
-      }, 8000);
+      }, 15000);
     } else {
       errorText.textContent = result.message || 'Something went wrong. Please try again.';
       errorMsg.style.display = 'block';
@@ -1004,14 +1022,14 @@ document.getElementById('suggestionMobile')?.addEventListener('input', function(
 
 // Score validation for suggestion form
 document.getElementById('suggestionMhtCet')?.addEventListener('input', function(e) {
-  if (parseFloat(this.value) > 200) {
-    this.value = 200;
+  if (parseFloat(this.value) > 100) {
+    this.value = 100;
   }
 });
 
 document.getElementById('suggestionJee')?.addEventListener('input', function(e) {
-  if (parseFloat(this.value) > 360) {
-    this.value = 360;
+  if (parseFloat(this.value) > 100) {
+    this.value = 100;
   }
 });
 </script>

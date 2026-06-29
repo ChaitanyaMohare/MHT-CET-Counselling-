@@ -1,5 +1,6 @@
 const Response = require('../models/Response');
 const { sendSuggestionEmail } = require('../utils/mailer');
+const { getDocumentLink } = require('../driveConfig');
 
 // Submit Suggestion Form
 exports.submitSuggestionForm = async (req, res) => {
@@ -33,6 +34,13 @@ exports.submitSuggestionForm = async (req, res) => {
       });
     }
 
+    // Get document link for the selected percentile range
+    const documentInfo = getDocumentLink(percentileRange);
+    
+    if (!documentInfo) {
+      console.warn('⚠️ No document found for percentile range:', percentileRange);
+    }
+
     // Create new response
     const newResponse = new Response({
       fullName: fullName.trim(),
@@ -57,7 +65,9 @@ exports.submitSuggestionForm = async (req, res) => {
         jeeScore: jeeScore ? parseFloat(jeeScore) : null,
         percentileRange,
         branches: Array.isArray(branches) ? branches : [branches],
-        cities: Array.isArray(cities) ? cities : [cities]
+        cities: Array.isArray(cities) ? cities : [cities],
+        documentLink: documentInfo ? documentInfo.link : null,
+        documentName: documentInfo ? documentInfo.name : null
       });
 
       if (!emailResult.success) {
@@ -73,7 +83,9 @@ exports.submitSuggestionForm = async (req, res) => {
     res.status(201).json({ 
       success: true, 
       message: 'Thank you! Check your email for college suggestions and counselling plans.',
-      data: newResponse
+      data: newResponse,
+      documentLink: documentInfo ? documentInfo.link : null,
+      documentName: documentInfo ? documentInfo.name : null
     });
   } catch (error) {
     console.error('❌ Error in suggestion form submission:', error);
