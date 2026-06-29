@@ -50,6 +50,7 @@ app.use('/', require('./routes/terms'));
 app.use('/', require('./routes/privacy'));
 app.use('/', require('./routes/admin'));
 app.use('/', require('./routes/quickLead'));
+app.use('/', require('./routes/suggestionForm'));
 
 // 404
 app.use((req, res) => {

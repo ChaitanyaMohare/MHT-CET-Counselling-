@@ -41,7 +41,7 @@ const packages = [
       'College Comparison Sheet',
       'PDF Report'
     ],
-    link: 'https://payments.cashfree.com/forms/pravesh-mitra-basic-plan'
+    link: 'https://praveshmitra.online/register?plan=Basic'
   },
   {
     name: 'Standard',
@@ -57,11 +57,11 @@ const packages = [
       'Real Insights from Seniors',
       'WhatsApp Support for 7 Days'
     ],
-    link: 'https://payments.cashfree.com/forms/pravesh-mitra-standard-plan'
+    link: 'https://praveshmitra.online/register?plan=Standard'
   },
   {
     name: 'Premium',
-    price: '₹1,999',
+    price: '₹1,499',
     subtitle: 'Complete CAP Support',
     badge: 'Best Value',
     features: [
@@ -74,7 +74,7 @@ const packages = [
       'Priority WhatsApp Support',
       'Multiple Counseling Sessions'
     ],
-    link: 'https://payments.cashfree.com/forms/pravesh-mitra-premium-plan'
+    link: 'https://praveshmitra.online/register?plan=Premium'
   }
 ];
 
@@ -139,7 +139,6 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
       subject: 'Your College Counselling Information - Pravesh Mitra',
       headers: {
         'X-Priority': '3',
-        'X-Mailer': 'Nodemailer',
         'Importance': 'normal',
         'X-Entity-Ref-ID': `PMITRA-${Date.now()}`,
         'List-Unsubscribe': `<mailto:${process.env.GMAIL_USER}?subject=unsubscribe>`
@@ -264,9 +263,9 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
                   <td style="padding:20px;">
                     <p style="margin:0 0 10px;font-size:14px;font-weight:bold;color:#374151;">Need assistance?</p>
                     <p style="margin:0;font-size:14px;color:#6b7280;line-height:1.6;">
-                      Phone: +91 95296 79073<br>
-                      Email: support@praveshmitra.in<br>
-                      WhatsApp: +91 95296 79073
+                      Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
+                      Email: <a href="mailto:brixontech@gmail.com" style="color:#2563eb;text-decoration:none;">brixontech@gmail.com</a><br>
+                      WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
                     </p>
                   </td>
                 </tr>
@@ -365,7 +364,7 @@ Registration Details:
 Our team will contact you within 12 hours regarding payment and next steps.
 
 Contact: +91 95296 79073
-Email: support@praveshmitra.in
+Email: brixontech@gmail.com
 
 Regards,
 Pravesh Mitra Team
@@ -500,9 +499,9 @@ Pravesh Mitra Team
                   <td style="padding:15px;">
                     <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Need Help?</p>
                     <p style="margin:0;font-size:14px;color:#333333;">
-                      Phone: +91 95296 79073<br>
-                      Email: support@praveshmitra.in<br>
-                      WhatsApp: +91 95296 79073
+                      Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
+                      Email: <a href="mailto:brixontech@gmail.com" style="color:#2563eb;text-decoration:none;">brixontech@gmail.com</a><br>
+                      WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
                     </p>
                   </td>
                 </tr>
@@ -546,4 +545,300 @@ Pravesh Mitra Team
   }
 };
 
-module.exports = { sendQuickLeadThankYou, sendRegistrationSuccessEmail };
+/**
+ * Send college suggestion email with plans
+ */
+const sendSuggestionEmail = async (userData) => {
+  const {
+    fullName,
+    email,
+    mhtCetScore,
+    jeeScore,
+    branches = [],
+    cities = [],
+    percentileRange,
+    documentLink = null,
+    documentName = null
+  } = userData;
+
+  // Add document section if available
+  const documentSection = documentLink ? `
+
+Document Available:
+${documentName}
+View: ${documentLink}
+` : '';
+
+  const documentHTML = documentLink ? `
+              <!-- Document Section -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:25px 0;border:2px solid #16a34a;background-color:#f0fdf4;">
+                <tr>
+                  <td style="padding:20px;">
+                    <p style="margin:0 0 15px;font-size:16px;font-weight:bold;color:#166534;">📄 Your Requested Document</p>
+                    <p style="margin:0 0 15px;font-size:14px;color:#166534;">
+                      <strong>${documentName}</strong>
+                    </p>
+                    <p style="margin:0;text-align:center;">
+                      <a href="${documentLink}" target="_blank" style="display:inline-block;background-color:#16a34a;color:#ffffff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">📥 View Document</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>` : '';
+
+  try {
+    const mailOptions = {
+      from: {
+        name: 'Pravesh Mitra',
+        address: process.env.GMAIL_USER
+      },
+      to: email,
+      replyTo: {
+        name: 'Pravesh Mitra Support',
+        address: process.env.GMAIL_USER
+      },
+      subject: 'Your College Suggestions - Pravesh Mitra',
+      headers: {
+        'X-Priority': '3',
+        'Importance': 'normal',
+        'X-Entity-Ref-ID': `SUGGEST-${Date.now()}`,
+        'List-Unsubscribe': `<mailto:${process.env.GMAIL_USER}?subject=unsubscribe>`
+      },
+      text: `
+Hello ${fullName},
+
+Thank you for your interest in Pravesh Mitra college counselling services.
+
+Your Submission:
+- MHT-CET Score: ${mhtCetScore}
+${jeeScore ? `- JEE Score: ${jeeScore}` : ''}
+- Branches: ${branches.join(', ')}
+- Cities: ${cities.join(', ')}
+${documentSection}
+Choose from our counselling plans:
+- Basic Plan (₹499): College Discovery Package
+- Standard Plan (₹999): Admission Strategy Package  
+- Premium Plan (₹1,499): Complete CAP Support
+
+Visit: https://praveshmitra.online/packages
+
+Contact: +91 95296 79073
+Email: brixontech@gmail.com
+
+Regards,
+Pravesh Mitra Team
+      `,
+      html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;font-family:Arial,sans-serif;background-color:#ffffff;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;">
+    <tr>
+      <td style="padding:20px;">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;max-width:600px;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="padding:30px 20px;background-color:#2563eb;text-align:center;">
+              <h1 style="margin:0;color:#ffffff;font-size:24px;">Pravesh Mitra</h1>
+              <p style="margin:5px 0 0;color:rgba(255,255,255,0.9);font-size:13px;">MHT-CET Counselling Support</p>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:30px 20px;background-color:#ffffff;">
+              
+              <p style="margin:0 0 20px;font-size:16px;color:#000000;">Hello ${fullName},</p>
+              
+              <p style="margin:0 0 20px;font-size:15px;color:#333333;">
+                Thank you for your interest in Pravesh Mitra college counselling services. We have received your information.
+              </p>
+
+              ${documentHTML}
+
+              <!-- Submission Details -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:20px 0;background-color:#f5f5f5;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Your Submission</p>
+                    <table width="100%" cellpadding="5" cellspacing="0" border="0">
+                      <tr>
+                        <td style="color:#666666;">MHT-CET Score:</td>
+                        <td style="color:#000000;text-align:right;"><strong>${mhtCetScore}</strong></td>
+                      </tr>
+                      ${jeeScore ? `
+                      <tr>
+                        <td style="color:#666666;">JEE Score:</td>
+                        <td style="color:#000000;text-align:right;"><strong>${jeeScore}</strong></td>
+                      </tr>` : ''}
+                      <tr>
+                        <td style="color:#666666;vertical-align:top;">Branches:</td>
+                        <td style="color:#000000;text-align:right;font-size:13px;">${branches.join(', ')}</td>
+                      </tr>
+                      <tr>
+                        <td style="color:#666666;vertical-align:top;">Cities:</td>
+                        <td style="color:#000000;text-align:right;font-size:13px;">${cities.join(', ')}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Next Steps -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:25px 0;border:2px solid #2563eb;background-color:#eff6ff;">
+                <tr>
+                  <td style="padding:20px;">
+                    <p style="margin:0 0 15px;font-size:16px;font-weight:bold;color:#000000;">What's Next?</p>
+                    <table width="100%" cellpadding="5" cellspacing="0" border="0">
+                      <tr>
+                        <td style="padding:8px 0;">
+                          <p style="margin:0;font-size:14px;color:#333333;">
+                            <strong>1.</strong> Choose a counselling plan that fits your needs
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;">
+                          <p style="margin:0;font-size:14px;color:#333333;">
+                            <strong>2.</strong> Complete registration and payment
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;">
+                          <p style="margin:0;font-size:14px;color:#333333;">
+                            <strong>3.</strong> Get personalized college suggestions and expert guidance
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Plans -->
+              <p style="margin:25px 0 15px;font-size:18px;font-weight:bold;color:#000000;text-align:center;">Our Counselling Plans</p>
+
+              <!-- Basic Plan -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:15px 0;background-color:#ffffff;border:1px solid #e5e7eb;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 5px;font-size:18px;font-weight:bold;color:#000000;">Basic Plan</p>
+                    <p style="margin:0 0 10px;font-size:13px;color:#666666;">College Discovery Package</p>
+                    <p style="margin:0 0 10px;font-size:24px;font-weight:bold;color:#2563eb;">₹499</p>
+                    <ul style="margin:0;padding-left:20px;">
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Personalized College List</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Dream / Target / Safe Colleges</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Branch Recommendations</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">PDF Report</li>
+                    </ul>
+                    <p style="margin:15px 0 0;text-align:center;">
+                      <a href="https://praveshmitra.online/register?plan=Basic" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:10px 20px;text-decoration:none;border-radius:4px;">Select Basic Plan</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Standard Plan -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:15px 0;background-color:#eff6ff;border:2px solid #2563eb;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 5px;font-size:12px;font-weight:bold;color:#2563eb;">MOST POPULAR</p>
+                    <p style="margin:0 0 5px;font-size:18px;font-weight:bold;color:#000000;">Standard Plan</p>
+                    <p style="margin:0 0 10px;font-size:13px;color:#666666;">Admission Strategy Package</p>
+                    <p style="margin:0 0 10px;font-size:24px;font-weight:bold;color:#2563eb;">₹999</p>
+                    <ul style="margin:0;padding-left:20px;">
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Everything in Basic Plan</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">1-on-1 Counseling Call (30-45 mins)</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Branch Selection Guidance</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">WhatsApp Support for 7 Days</li>
+                    </ul>
+                    <p style="margin:15px 0 0;text-align:center;">
+                      <a href="https://praveshmitra.online/register?plan=Standard" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:10px 20px;text-decoration:none;border-radius:4px;">Select Standard Plan</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Premium Plan -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:15px 0;background-color:#ffffff;border:1px solid #e5e7eb;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 5px;font-size:18px;font-weight:bold;color:#000000;">Premium Plan</p>
+                    <p style="margin:0 0 10px;font-size:13px;color:#666666;">Complete CAP Support</p>
+                    <p style="margin:0 0 10px;font-size:24px;font-weight:bold;color:#2563eb;">₹1,499</p>
+                    <ul style="margin:0;padding-left:20px;">
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Everything in Standard Plan</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Support Throughout All CAP Rounds</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Round-wise Guidance</li>
+                      <li style="margin:5px 0;font-size:13px;color:#333333;">Priority WhatsApp Support</li>
+                    </ul>
+                    <p style="margin:15px 0 0;text-align:center;">
+                      <a href="https://praveshmitra.online/register?plan=Premium" style="display:inline-block;background-color:#2563eb;color:#ffffff;padding:10px 20px;text-decoration:none;border-radius:4px;">Select Premium Plan</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- View All Plans Button -->
+              <p style="margin:25px 0 0;text-align:center;">
+                <a href="https://praveshmitra.online/packages" style="display:inline-block;background-color:#16a34a;color:#ffffff;padding:14px 32px;text-decoration:none;border-radius:4px;font-weight:bold;">View All Plans & Details</a>
+              </p>
+
+              <!-- Contact -->
+              <table width="100%" cellpadding="10" cellspacing="0" border="0" style="margin:25px 0 0;background-color:#f5f5f5;">
+                <tr>
+                  <td style="padding:15px;">
+                    <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Need Help?</p>
+                    <p style="margin:0;font-size:14px;color:#333333;">
+                      Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
+                      Email: <a href="mailto:brixontech@gmail.com" style="color:#2563eb;text-decoration:none;">brixontech@gmail.com</a><br>
+                      WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:20px 0 0;font-size:14px;color:#333333;">
+                Regards,<br>
+                <strong>Pravesh Mitra Team</strong>
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px;background-color:#f5f5f5;text-align:center;">
+              <p style="margin:0;font-size:12px;color:#666666;">
+                Pravesh Mitra - MHT-CET Counselling<br>
+                Chhatrapati Sambhaji Nagar, Maharashtra
+              </p>
+              <p style="margin:10px 0 0;font-size:11px;color:#999999;">
+                © ${new Date().getFullYear()} Pravesh Mitra. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`✅ Suggestion email sent to ${email}`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Suggestion email send error:', error.message);
+    return { success: false, error: error.message };
+  }
+};
+
+module.exports = { sendQuickLeadThankYou, sendRegistrationSuccessEmail, sendSuggestionEmail };
