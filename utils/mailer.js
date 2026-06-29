@@ -41,7 +41,7 @@ const packages = [
       'College Comparison Sheet',
       'PDF Report'
     ],
-    link: 'https://payments.cashfree.com/forms/pravesh-mitra-basic-plan'
+    link: 'https://praveshmitra.online/register?plan=Basic'
   },
   {
     name: 'Standard',
@@ -57,11 +57,11 @@ const packages = [
       'Real Insights from Seniors',
       'WhatsApp Support for 7 Days'
     ],
-    link: 'https://payments.cashfree.com/forms/pravesh-mitra-standard-plan'
+    link: 'https://praveshmitra.online/register?plan=Standard'
   },
   {
     name: 'Premium',
-    price: '₹1,999',
+    price: '₹1,499',
     subtitle: 'Complete CAP Support',
     badge: 'Best Value',
     features: [
@@ -74,7 +74,7 @@ const packages = [
       'Priority WhatsApp Support',
       'Multiple Counseling Sessions'
     ],
-    link: 'https://payments.cashfree.com/forms/pravesh-mitra-premium-plan'
+    link: 'https://praveshmitra.online/register?plan=Premium'
   }
 ];
 
@@ -264,9 +264,9 @@ const sendQuickLeadThankYou = async (toEmail, studentName, details = {}) => {
                   <td style="padding:20px;">
                     <p style="margin:0 0 10px;font-size:14px;font-weight:bold;color:#374151;">Need assistance?</p>
                     <p style="margin:0;font-size:14px;color:#6b7280;line-height:1.6;">
-                      Phone: +91 95296 79073<br>
-                      Email: support@praveshmitra.in<br>
-                      WhatsApp: +91 95296 79073
+                      Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
+                      Email: <a href="mailto:support@praveshmitra.in" style="color:#2563eb;text-decoration:none;">support@praveshmitra.in</a><br>
+                      WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
                     </p>
                   </td>
                 </tr>
@@ -500,9 +500,9 @@ Pravesh Mitra Team
                   <td style="padding:15px;">
                     <p style="margin:0 0 10px;font-weight:bold;color:#000000;">Need Help?</p>
                     <p style="margin:0;font-size:14px;color:#333333;">
-                      Phone: +91 95296 79073<br>
-                      Email: support@praveshmitra.in<br>
-                      WhatsApp: +91 95296 79073
+                      Phone: <a href="tel:+919529679073" style="color:#2563eb;text-decoration:none;">+91 95296 79073</a><br>
+                      Email: <a href="mailto:support@praveshmitra.in" style="color:#2563eb;text-decoration:none;">support@praveshmitra.in</a><br>
+                      WhatsApp: <a href="https://wa.me/919529679073" style="color:#16a34a;text-decoration:none;">+91 95296 79073</a>
                     </p>
                   </td>
                 </tr>
