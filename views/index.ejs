@@ -248,6 +248,58 @@
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════
+     PACKAGES SECTION
+════════════════════════════════════════════ -->
+<section class="packages-section">
+  <div class="section-container">
+    <div class="section-heading">
+      <h2>Choose Your Counselling Plan</h2>
+      <p class="section-sub">Transparent pricing with detailed features. Select the plan that matches your needs.</p>
+      <div class="heading-bar"></div>
+    </div>
+  </div>
+  
+  <div class="packages-grid">
+    <% plans.forEach(function(plan) { %>
+      <div class="plan-card <%= plan.featured ? 'featured' : '' %>">
+        <% if (plan.badge) { %>
+          <div class="featured-badge"><%= plan.badge %></div>
+        <% } %>
+        <div class="plan-name"><%= plan.name %> Plan</div>
+        <% if (plan.subtitle) { %>
+          <div class="plan-subtitle"><%= plan.subtitle %></div>
+        <% } %>
+        <div class="plan-price">
+          <span class="currency">₹</span>
+          <span class="amount"><%= plan.price.toLocaleString('en-IN') %></span>
+          <span class="period">&nbsp;/ one-time</span>
+        </div>
+        <ul class="plan-features">
+          <% plan.features.forEach(function(f) { %>
+            <li><%= f %></li>
+          <% }); %>
+        </ul>
+        <% if (plan.tagline) { %>
+          <div class="plan-tagline"><%= plan.tagline %></div>
+        <% } %>
+        <a href="/register?plan=<%= plan.id %>" class="plan-select-btn">
+          Select <%= plan.name %> Plan
+        </a>
+      </div>
+    <% }); %>
+  </div>
+
+  <div style="text-align:center;margin-top:3rem;color:#64748b;font-size:0.85rem;">
+    <p>
+      <img src="https://cdn-icons-png.flaticon.com/512/159/159469.png" alt="Secure" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;" />
+      Your data is secure with us. &nbsp;|&nbsp; 
+      <img src="https://cdn-icons-png.flaticon.com/512/1034/1034131.png" alt="Questions" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;" />
+      Questions? <a href="/contact" style="color:var(--blue);">Contact us</a>
+    </p>
+  </div>
+</section>
+
 
 <!-- ═══════════════════════════════════════════
      TEAM / EXPERTS
